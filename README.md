@@ -1,31 +1,41 @@
-[Свёрстанные вопросы и ответы](book/Java_questions.pdf) [by Victoria Demidova](https://github.com/VictoriaDemidova)  
-[Telegram Bot](https://web.telegram.org/#/im?p=@DevInterviewBot) [by cmmttd](https://github.com/cmmttd)
+## Цель проекта
+[Проект](https://github.com/enhorse/java-interview), на основе которого создан данный репозиторий. 
 
 # Вопросы для собеседования на Java Developer
 
++ [Computer Science основы](#computer-science-fundamentals) (In progress)
++ [Алгоритмы и структуры данных](#алгоритмы-и-структуры-данных) (In progress)
++ [Сети](#сети) (In progress)
 + [ООП](#ООП) ![icon][done]
 + [JVM](#jvm) ![icon][done]
 + [Java Core](#java-core) ![icon][done]
 + [Java Collections Framework](#java-collections) ![icon][done]
 + [Java 8](#java-8) ![icon][done]
++ [Java 21](#java-21) (In progress)
 + [Потоки ввода-вывода в Java](#Потоки-вводавывода-в-java) ![icon][done]
 + [Сериализация](#Сериализация) ![icon][done]
 + [Многопоточность](#Многопоточность) ![icon][done]
 + [Servlets, JSP, JSTL](#servlets-jsp-jstl) ![icon][done]
-+ [Базы данных](#Базы-данных) ![icon][done]
++ [Базы данных](#Базы-данных) (In progress)
 + [SQL](#sql) ![icon][done]
 + [JDBC](#jdbc) ![icon][done]
++ [JPA/Hibernate](#jpahibernate-) (In progress)
 + [Тестирование](#Тестирование) ![icon][done]
 + [Журналирование](#Журналирование) ![icon][done]
-+ [UML](#uml) ![icon][done]
-+ [XML](#xml) ![icon][done]
-+ [Шаблоны проектирования](#Шаблоны-проектирования) ![icon][done]
++ [UML](#uml) ![icon][done] (remove)
++ [XML](#xml) ![icon][done] (remove)
++ [Шаблоны проектирования](#Шаблоны-проектирования) (In progress)
++ [Менеджеры очередей(Kafka, RabbitMQ)](#менеджеры-очередейkafka-rabbitmq) (In progress)
 + [Основы HTML](#Основы-html) ![icon][done]
 + [Основы CSS](#Основы-css) ![icon][done]
-+ [Основы Web](#Основы-web) ![icon][done]
++ [Основы Web](#Основы-web) ![icon][done] (replace with Сети)
 + [Дополнительные материалы](#Дополнительные-материалы) ![icon][done]
 
 [done]:done.png
+
+## Computer Science fundamentals
+## Алгоритмы и структуры данных
+## Сети
 
 ## ООП
 + [Что такое _ООП_?](oop.md#Что-такое-ООП)
@@ -321,6 +331,8 @@
 + [Как создать Base64 кодировщик и декодировщик?](java8.md#Как-создать-base64-кодировщик-и-декодировщик)
 
 [к оглавлению](#Вопросы-для-собеседования-на-java-developer)
+
+## Java 21
 
 ## Потоки ввода/вывода в Java
 + [В чём заключается разница между IO и NIO?](io.md#В-чём-заключается-разница-между-io-и-nio)
@@ -622,6 +634,8 @@
 
 [к оглавлению](#Вопросы-для-собеседования-на-java-developer)
 
+## JPA/Hibernate 
+
 ## Тестирование
 + [Что такое _«модульное тестирование»_?](test.md#Что-такое-модульное-тестирование)
 + [Что такое _«интеграционное тестирование»_?](test.md#Что-такое-интеграционное-тестирование)
@@ -680,6 +694,8 @@
 + [Что такое _Dependency Injection_?](patterns.md#Что-такое-dependency-injection)
 
 [к оглавлению](#Вопросы-для-собеседования-на-java-developer)
+
+## Менеджеры очередей(Kafka, RabbitMQ)
 
 ## Основы HTML
 + [Что такое _«HTML»_?](html.md#Что-такое-html)
