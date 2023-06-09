@@ -1,11 +1,12 @@
-## Цель проекта
+## 
 [Проект](https://github.com/enhorse/java-interview), на основе которого создан данный репозиторий. 
 
 # Вопросы для собеседования на Java Developer
 
-+ [Computer Science основы](#computer-science-fundamentals) (In progress)
++ [Computer Science](#computer-science-fundamentals) (In progress)
 + [Алгоритмы и структуры данных](#алгоритмы-и-структуры-данных) (In progress)
 + [Сети](#сети) (In progress)
++ [Cybersecurity](#cybersecurity) (In progress)
 + [ООП](#ООП) ![icon][done]
 + [JVM](#jvm) ![icon][done]
 + [Java Core](#java-core) ![icon][done]
@@ -22,6 +23,9 @@
 + [JPA/Hibernate](#jpahibernate-) (In progress)
 + [Тестирование](#Тестирование) ![icon][done]
 + [Журналирование](#Журналирование) ![icon][done]
++ [Spring(Core|Boot|Data)](#springcorebootdata) (In progress)
++ [Spring Cloud](#spring-cloud) (In progress)
++ [Spring Security](#spring-security) (In progress)
 + [UML](#uml) ![icon][done] (remove)
 + [XML](#xml) ![icon][done] (remove)
 + [Шаблоны проектирования](#Шаблоны-проектирования) (In progress)
@@ -29,14 +33,14 @@
 + [Основы HTML](#Основы-html) ![icon][done]
 + [Основы CSS](#Основы-css) ![icon][done]
 + [Основы Web](#Основы-web) ![icon][done] (replace with Сети)
-+ [Дополнительные материалы](#Дополнительные-материалы) ![icon][done]
++ [Дополнительные материалы](#Дополнительные-материалы) (In progress)
 
 [done]:done.png
 
 ## Computer Science fundamentals
 ## Алгоритмы и структуры данных
 ## Сети
-
+## Cybersecurity
 ## ООП
 + [Что такое _ООП_?](oop.md#Что-такое-ООП)
 + [Назовите основные принципы _ООП_.](oop.md#Назовите-основные-принципы-ООП)
@@ -659,6 +663,9 @@
 
 [к оглавлению](#Вопросы-для-собеседования-на-java-developer)
 
+## Spring(Core|Boot|Data)
+## Spring Cloud
+## Spring Security
 ## UML
 + [Что такое _UML_?](uml.md#Что-такое-uml)
 + [Что такое _«диаграмма»_, _«нотация»_ и _«метамодель»_ в UML?](uml.md#Что-такое-диаграмма-нотация-и-метамодель-в-uml)
