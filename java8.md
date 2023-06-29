@@ -14,7 +14,7 @@
 + [Для чего нужны функциональные интерфейсы `BinaryOperator<T>`, `DoubleBinaryOperator`, `IntBinaryOperator` и `LongBinaryOperator`?](#Для-чего-нужны-функциональные-интерфейсы-binaryoperatort-doublebinaryoperator-intbinaryoperator-и-longbinaryoperator)
 + [Для чего нужны функциональные интерфейсы `Predicate<T>`, `DoublePredicate`, `IntPredicate` и `LongPredicate`?](#Для-чего-нужны-функциональные-интерфейсы-predicatet-doublepredicate-intpredicate-и-longpredicate)
 + [Для чего нужны функциональные интерфейсы `Consumer<T>`, `DoubleConsumer`, `IntConsumer` и `LongConsumer`?](#Для-чего-нужны-функциональные-интерфейсы-consumert-doubleconsumer-intconsumer-и-longconsumer)
-+ [Для чего нужны функциональные интерфейсы `Supplier<T>`,  `BooleanSupplier`, `DoubleSupplier`, `IntSupplier` и `LongSupplier`?](#Для-чего-нужны-функциональные-интерфейсы-suppliert--booleansupplier-doublesupplier-intsupplier-и-longsupplier)
++ [Для чего нужны функциональные интерфейсы `Supplier<T>`,  `BooleanSupplier`, `DoubleSupplier`, `IntSupplier` и `LongSupplier`?](#для-чего-нужны-функциональные-интерфейсы-suppliert-booleansupplier-doublesupplier-intsupplier-и-longsupplier)
 + [Для чего нужен функциональный интерфейс `BiConsumer<T,U>`?](#Для-чего-нужен-функциональный-интерфейс-biconsumertu)
 + [Для чего нужен функциональный интерфейс `BiFunction<T,U,R>`?](#Для-чего-нужен-функциональный-интерфейс-bifunctiontur)
 + [Для чего нужен функциональный интерфейс `BiPredicate<T,U>`?](#Для-чего-нужен-функциональный-интерфейс-bipredicatetu)
