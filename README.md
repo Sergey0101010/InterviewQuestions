@@ -39,7 +39,7 @@
 
 ## Computer Science fundamentals
 ## Алгоритмы и структуры данных
-## Сети
+## Сети(not updated)
 ## Cybersecurity
 ## ООП
 + [Что такое _ООП_?](oop.md#Что-такое-ООП)
