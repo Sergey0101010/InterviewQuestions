@@ -1,7 +1,6 @@
 [Вопросы для собеседования](README.md)
 
 # Computer Science(Eng)
-## How integers are stored in memory?
 
 ## Why are floating point numbers inaccurate?
 Floating point numbers in most programming languages are represented very similar to _scientific notation_:
@@ -22,7 +21,8 @@ number called `float` and `double` for double precision numbers.
 The Sign stored in the first component as single bit. `0` means positive number, `1` means negative
 
 #### Exponent
-Stored in the middle asa 11 bits. To get true exponent you must subtract number **2<sup>(# of bits) - 1</sup>**.
+Stored in the middle asa 11 bits. To get true exponent you must subtract number **2<sup>(# of bits) - 1</sup> - 1**
+to be able to have negative values.
 #### Mantissa
 Stored as third component as 52 bits. In scientific notation using decimal numbers mantissa always startswith non-zero
 decimal number. it is also true for binary but as we only have `1` and `0` so mantissa always starts with 1.
