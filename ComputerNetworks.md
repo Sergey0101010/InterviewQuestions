@@ -102,6 +102,26 @@ __Стек TCP/IP__ был разработан по заказу министе
 данной ОС стек стал очень популярен.
 
 [к оглавлению](#компьютерные-сети)
+
+## What is DNS and how it works?
+DNS(Domain Name System) - maps domains' symbol names to their actual IP addresses(IPv4 & IPv6). It is very important 
+part of the Internet, but it might work in autonomous networks as well.
+For people, working with symbol names of Internet resources is more comfortable, than with numbers like IP-addresses.
+DNS has hierarchical structure which is very similar to file system hierarchy on PCs. Tree starts with **root** 
+represented as dot symbol, next we have **top level domains** such as **.com** **.ru** **.org** etc.
+
+When we request some resource in the Internet using its symbol name, our browser sends request to DNS 
+stub resolver(part of any OS) and then it sends request to other DNS servers, to get resolved name.
+ 
+1. DNS-client sends request to local DNS-server(it serves subdomain owner) 
+2. If local DNS-server knows answer, it replies to client immediately might with authorized 
+response(requested IP is on same subdomain for which this server is responsible)or non-authorized 
+response(answer saved in server's cache). If DNS-server don't know the answer, then it sends request to root server, 
+root servers responses with list of DNS servers responsible for top level domain of requesting service.
+3. When local DNS gets response from root DNS, it sends requests to *top level DNS-servers* from received list. And repeats 
+requests until some _subdomain_ server response with IP of requested service.
+4. Local DNS sends response to DNS-client
+
 ## Что такое _UDP_?
 __UDP, User Datagram Protocol (Протокол пользовательских датаграмм)__ — протокол, который обеспечивает доставку без требований соединения с удаленным модулем UDP и обязательного подтверждения получения.
 
