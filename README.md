@@ -1,11 +1,11 @@
 ## 
-[Проект](https://github.com/enhorse/java-interview), на основе которого создан данный репозиторий. 
+[Проект](https://github.com/enhorse/java-interview) на основе которого создан данный репозиторий. 
 
 # Вопросы для собеседования на Java Developer
 
 + [Computer Science](#computer-science-fundamentals) (In progress)
 + [Алгоритмы и структуры данных](#алгоритмы-и-структуры-данных) (In progress)
-+ [Сети](#сети) (In progress)
++ [Сети](#Computer Networks) (In progress)
 + [Cybersecurity](#cybersecurity) (In progress)
 + [ООП](#ООП) ![icon][done]
 + [JVM](#jvm) ![icon][done]
