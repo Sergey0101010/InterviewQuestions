@@ -14,6 +14,6 @@
 - [Sealed classes](https://openjdk.org/jeps/409) - java 17
 - [Key Encapsulation Mechanism API](https://openjdk.org/jeps/452). Java 21
 - [Generational ZGC](https://openjdk.org/jeps/439) - Improved performance Z Garbage Collector 
-- [Record Patterns](https://openjdk.org/jeps/440)
+- [Record Patterns](https://openjdk.org/jeps/440) - Java 16
 - [Virtual Threads](https://openjdk.org/jeps/444) - Release, java 21
 - [Sequenced collections](https://openjdk.org/jeps/431) - java 21

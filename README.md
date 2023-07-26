@@ -5,7 +5,7 @@
 
 + [Computer Science](#computer-science-fundamentals) (In progress)
 + [Алгоритмы и структуры данных](#алгоритмы-и-структуры-данных) (In progress)
-+ [Сети](#Computer Networks) (In progress)
++ [Сети](#сети) (In progress)
 + [Cybersecurity](#cybersecurity) (In progress)
 + [ООП](#ООП) ![icon][done]
 + [JVM](#jvm) ![icon][done]
@@ -39,7 +39,7 @@
 
 ## Computer Science fundamentals
 ## Алгоритмы и структуры данных
-## Сети(not updated)
+## Сети
 ## Cybersecurity
 ## ООП
 + [Что такое _ООП_?](oop.md#Что-такое-ООП)
