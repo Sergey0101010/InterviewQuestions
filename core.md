@@ -1324,9 +1324,53 @@ public native int hashCode();
 
 
 [Comparable документация](https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html)
+
 [Compartor документация](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
+
 [к оглавлению](#java-core)
 
+## Почему при реализации методов `compareTo()` и `compare()` интерфейсов `Comparable<T>` и `Comparator<T>` соответственно, необходимо их согласование с `equals()`?
+Порядок объектов в коллекции, который определяется `Comparable<T>` и `Comparator<T>` крайне рекомендуется(хотя и необязательно)
+согласовывать с `equals()`, если этого не сделать, то поведение объектов в некоторых коллекциях имплементирующих интерфейсы
+`SortedMap<K, V>` и `SortedSet<E>` будет непредсказуемым. 
+Если мы планируем добавлять сравниваемые объекты в одну из таких коллекций, 
+то необходимо соблюсти условие:
+если `obj1.compareTo(obj2) == 0` тогда `obj1.equals(obj2) == true`, с одним исключением, что `obj1.compareTo(null)` должно
+выбрасывать `NullPointerException` несмотря на то, что `obj1.equals(null) == false`  
+
+Например, мы добавляем 2 ключа a и b таких, что `(!a.equals(b) && a.compareTo(b) == 0)` в `TreeSet`. Вторая операция добавления 
+элемента не добавит его в `TreeSet`, потому что с точки зрения `TreeSet` эти элементы равны. Из-за такой несогласованности
+мы можем получить странное поведение объектов в таких коллекциях:
+```java
+> BigDecimal z = new BigDecimal("0.0")
+> BigDecimal zz = new BigDecimal("0.00")
+> z.compareTo(zz)
+0
+> z.equals(zz)
+false
+> TreeSet<BigDecimal> ts = new TreeSet<>()
+> ts.add(z)
+> ts.contains(z)
+true
+> z.equals(ts.iterator().next())
+true
+> ts.contains(zz)
+true
+> zz.equals(ts.iterator().next())
+false
+```
+Все стандартные классы в java, имплементирующие `Comparable<T>` имеют согласованный с `compareTo()` метод `equals()`, 
+за исключением класса `BigDecimal`.
+
+Аналогичное условие должно соблюдаться и для метода `compare()` `c.compare(e1, e2) == 0` => `e1.equals(e2) == true`
+
+[Comparable документация](https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html)
+
+[Compartor документация](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
+
+[Stack overflow question](https://stackoverflow.com/a/53901802/21479048)
+
+[к оглавлению](#java-core)
 ## Расскажите про клонирование объектов.
 Использование оператора присваивания не создает нового объекта, а лишь копирует ссылку на объект. Таким образом, две ссылки указывают на одну и ту же область памяти, на один и тот же объект. Для создания нового объекта с таким же состоянием используется клонирование объекта. 
 
