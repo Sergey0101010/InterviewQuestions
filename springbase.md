@@ -213,3 +213,42 @@ This happens because Spring will create only one proxy object of your class and 
 only one transaction will be created. 
 
 ## What is Aspect-Oriented Programming(AOP)?
+AOP is another way of thinking about program structure, key unit in OOP is the class and in AOP the 
+unit of modularity is Aspect. Aspects enable modularization of concerns that cut across multiple types of 
+objects. 
+
+## What are Aspect, Advice, Pointcut and JoinPoint in AOP?
+**Aspect** - a class that implements cross-cutting concerns, such as transaction management
+**Advice** - the methods that get executed when a specific _JoinPoint_ with mathing _Pointcut_ is reached 
+in the application.
+**Pointcut** a set of regular expressions that are matched with _JoinPoint_ to determine whether _Advice_
+needs to be executed
+**JoinPoint** - a point during the execution of a program, such as the execution of a method or the 
+handling of an exception.
+
+ ## How to create log aspect for some class with business logic?
+```java
+@Service
+public class MyService {
+ public String publishComment(Comment comment) {
+  log.info("publishComment0");
+  return "Some value";
+ }
+}
+```
+
+```java
+@Component
+@Aspect
+@EnableAspectJAutoProxy
+public class LoggingAspect {
+ @Around("execution(* services.*.*(..))")
+ public void log(ProceedingJoinPoint joinPoint) {
+  logger.info("Method will execute");
+  joinPoint.proceed(); //call intercepted method
+  logger.info("Method executed");
+ }
+    
+    
+}
+```
