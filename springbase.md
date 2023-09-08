@@ -167,3 +167,49 @@ public class MyServiceImpl implements MyService {
     }
 }  
 ```
+
+## How to enable transactions in Spring and how they work?
+You can make method in some class transactional by putting on top of it `@Transactional` annotation 
+and set up level of transaction isolation by `@Transactional(isolation=TransactionDefinition.ISOLATION_READ_UNCOMMITTED)`
+
+Spring uses transactional proxy of class where you declare transaction. 
+The proxy has access to a transaction manager and will ask it to open and close transactions/connections
+The transaction manager itself will simply manage simple JDBC connection.
+
+## What is transactional propagation levels?
+Transactional propagation level is parameter which regulates what Spring should do if inside 
+`@Transactional` method other `@Transactional` method called.
+ Spring has 7 propagation types:
+- **Required(default)** if method called in already existing transaction it won't require the new one, 
+otherwise it will create a new one.
+- **Supports** don't care if transaction exist or not it will work in any case
+- **Mandatory** If method doesn't called inside transaction then will throw exception.
+- **Require_new** Method always require its own separate transaction
+- **Not_Supported** Can't been called inside transaction, suspend transaction if called inside it and execute 
+method
+- **Never** throws an exception if called inside transaction
+- **Nested** Spring checks if transaction exists and if so, creates a savepoint, if no transaction exist
+it will work as _REQUIRED_
+
+## How many transactions we will have if inside class we will have transactional method which calls other `@Transactional` method of this class?
+```java
+@Service
+public class UserService {
+
+    @Transactional
+    public void invoice() {
+        createPdf();
+        // send invoice as email, etc.
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void createPdf() {
+        // ...
+    }
+}
+```
+In this code we will have one transaction even if method `createPdf()` has propagation set to `REQUIRES_NEW`
+This happens because Spring will create only one proxy object of your class and because of this 
+only one transaction will be created. 
+
+## What is Aspect-Oriented Programming(AOP)?
