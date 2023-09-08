@@ -1595,6 +1595,26 @@ void method() {
 
 [к оглавлению](#java-core)    
 
+## How do you think, are checked exceptions were bad design decision?
+
+Usually, checked exceptions are meant for cases where you usually can recover from the exceptional situation.
+Checked exceptions have pros and cons. 
+Cons. 
+- In some situations they may cause encapsulation violation if you method `throws SomeException` then some exceptions may 
+cross module boundaries, which they shouldn't.
+- Make code uglier and harder to read because of many `try{}catch{}` blocks.
+- Novice programmer often will "swallow" exceptions simply wrap them in `RuntimeException` or by just leaving empty 
+`catch{}` block
+
+Pros
+- Developer instantly notified that exceptional situation might happen and measures must have been taken
+- Compile time safety for some situations
+
+So, checked exceptions have more cons, but they are big part of java language and unlikely will be removed 
+ 
+
+[к оглавлению](#java-core)
+
 ## Что такое _generics_?
 __Generics__ - это технический термин, обозначающий набор свойств языка позволяющих определять и использовать обобщенные типы и методы. Обобщенные типы или методы отличаются от обычных тем, что имеют типизированные параметры.
 

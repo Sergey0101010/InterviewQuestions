@@ -252,3 +252,18 @@ public class LoggingAspect {
     
 }
 ```
+## What is reactive programming?
+Reactive programming is programming paradigm where we focus on developing asynchronous and non-blocking components. 
+Reactive programming is usually event-driven and often follow reactive manifesto, these systems have four important
+characteristics.
+- **Responsive** the system should respond in a timely manner
+- **Resilient** in case of system failure it should stay responsive
+- **Elastic** reactive systems can react to changes and stay responsive under different workloads
+- **Message-Driven** reactive systems need to establish a boundary between components by relying on asynchronous
+message passing
+
+## What is Spring WebFlux?
+Spring WebFlux is Spring's reactive-stack web framework it's alternative to Spring MVC.
+
+
+
