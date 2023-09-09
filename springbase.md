@@ -10,6 +10,15 @@ Spring Boot is built on top of Spring framework, it provides all the features of
 feature often called "convention over configuration" so it configure a lot of things in your app by default, but
 you always can configure them.
 
+## What are key features of Spring?
+**Inversion of Control(IoC)** - Spring container takes care of wiring dependencies
+of various objects and creating them
+
+**Aspect oriented programming(AOP)** supports AOP to separate business logic from
+system services
+
+**MVC Framework** used to create RESTful web services
+
 ## What is dependency injection?
 Dependency Injection is one of the realizations of Inversion of Control(IoC) - principle in which 
 control over object(spring component/bean) lifecycle is managed by Spring, not by a programmer. 
@@ -78,6 +87,19 @@ specific for web applications(only valid in the context of web-aware Spring `App
 `
  
 [Spring docs](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html)
+
+## How we can configure some business logic before destruction or after init of Spring bean?
+We may use annotation `@PostConstruct` to declare some actions which should be done
+instantly after bean creation and annotation `@PreDestroy` to perform some actions 
+before bean destruction  
+
+## Please describe bean lifecycle
+
+[//]: # (// todo )
+
+## What do you know about Spring Aware interfaces?
+
+[//]: # (todo )
 
 ## Can we have multiple Spring Configuration files in one project?
 Yes, it is possible, usually done to increase maintainability and modularity
