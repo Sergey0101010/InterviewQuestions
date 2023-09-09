@@ -150,6 +150,59 @@ __public__ (публичный): класс/члены класса доступ
 
 [к оглавлению](#java-core)
 
+## How to create immutable class?
+To make your class immutable you should:
+1. Declare class as `final`so it can't be extended
+2. Make all the fields `private` 
+3. Make all fields `final` so they can't been changed later
+4. Init all fields through constructor and all mutable fields should be created through deep copy
+5. For all getters which return mutable fields you should return their deep copy
+
+```java
+public final class FinalClassExample {
+  private final int id;
+
+  private final String name;
+
+  private final HashMap<String,String> testMap;
+
+
+  public int getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  // Getter function for mutable objects
+
+  public HashMap<String, String> getTestMap() {
+    return (HashMap<String, String>) testMap.clone();
+  }
+
+  // Constructor method performing deep copy
+
+  public FinalClassExample(int i, String n, HashMap<String,String> hm){
+    System.out.println("Performing Deep Copy for Object initialization");
+
+    // "this" keyword refers to the current object
+    this.id=i;
+    this.name=n;
+
+    HashMap<String,String> tempMap=new HashMap<String,String>();
+    String key;
+    Iterator<String> it = hm.keySet().iterator();
+    while(it.hasNext()){
+      key=it.next();
+      tempMap.put(key, hm.get(key));
+    }
+    this.testMap=tempMap;
+  
+}
+```
+
+
 ## Какими значениями инициализируются переменные по умолчанию?
 + Числа инициализируются `0` или `0.0`; 
 + `char` — `\u0000`;
@@ -563,6 +616,15 @@ Val from non-static
     + _Anonymous inner class_ (Анонимный класс).
 
 [к оглавлению](#java-core)
+
+## Are java classes objects of `Class<T>`? 
+
+A Java class is not an object.
+
+However, every Java class has an instance of the Class class describing it.
+Those instances are objects
+
+[StackOverflow](https://stackoverflow.com/a/11990306/22463602)
 
 ## Расскажите про вложенные классы. В каких случаях они применяются?
 Класс называется вложенным (_Nested class_), если он определен внутри другого класса. Вложенный класс должен создаваться только для того, чтобы обслуживать обрамляющий его класс. Если вложенный класс оказывается полезен в каком-либо ином контексте, он должен стать классом верхнего уровня. Вложенные классы имеют доступ ко всем (в том числе приватным) полям и методам внешнего класса, но не наоборот. Из-за этого разрешения использование вложенных классов приводит к некоторому нарушению инкапсуляции.
@@ -1619,6 +1681,27 @@ So, checked exceptions have more cons, but they are big part of java language an
 __Generics__ - это технический термин, обозначающий набор свойств языка позволяющих определять и использовать обобщенные типы и методы. Обобщенные типы или методы отличаются от обычных тем, что имеют типизированные параметры.
 
 Примером использования обобщенных типов может служить _Java Collection Framework_. Так, класс `LinkedList<E>` - типичный обобщенный тип. Он содержит параметр `E`, который представляет тип элементов, которые будут храниться в коллекции. Создание объектов обобщенных типов происходит посредством замены параметризированных типов реальными типами данных. Вместо того, чтобы просто использовать `LinkedList`, ничего не говоря о типе элемента в списке, предлагается использовать точное указание типа `LinkedList<String>`, `LinkedList<Integer>` и т.п.
+
+[к оглавлению](#java-core)
+
+## What is heap pollution?
+Heap pollution implies that we have bad data in our memory. In java language, heap pollution is a situation that occurs 
+when a variable of parametrized type point to an object that is not of a that parametrized type. 
+
+```java
+class MyClass {
+  public static void main(String[] args) {
+    List<String> listOfStrings = new ArrayList<>();
+    listOfStrings.add("Some string");
+    
+    List<Integer> listOfIntegers = (List<Integer>) (Object) listOfString;
+    Integer firstElement = listOfIntegers.get(0);
+    System.out.println(firstElement);
+    
+  }
+}
+```
+This code will throw `ClassCastException` in runtime and we get warning in compile time
 
 [к оглавлению](#java-core)
 
