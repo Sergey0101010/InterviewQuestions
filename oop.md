@@ -354,6 +354,20 @@ __Интерфейс__ – это набор методов класса, дос
 
 [к оглавлению](#ООП)
 
+## Please tell about differences between OOP with procedural and functional programming paradigms
+_POP vs OOP_
+- In procedural programming the program is divided into small parts called **functions**(not objects like in OOP)
+- Procedural programming follows **top-down-approach** unlike in OOP, in POP we divide big problem into
+small subproblems
+- Overloading is not possible
+- Don't have any proper way of hiding data
+
+_FP vs OOP_ 
+- Fundamental elements in FP are variables and functions. Data in the functions are immutable
+- Importance are not given to data but to functions
+- Follows declarative programming model(OOP follows imperative)
+
+
 ## Что подразумевают в плане принципов ООП выражения _«является»_ и _«имеет»_?
 __«является»__ подразумевает наследование.
 __«имеет»__ подразумевает ассоциацию (агрегацию или композицию).
@@ -378,6 +392,23 @@ __«имеет»__ подразумевает ассоциацию (агрега
 Для всех методов Java используется механизм позднего (динамического) связывания, если только метод не был объявлен как `final` (приватные методы являются `final` по умолчанию).
 
 [к оглавлению](#ООП)
+
+## Tell about SOLID principles 
+SOLID is acronym for five class-design principles:
+- **S(Single Responsibility Principle)** - class should have only one responsibility and one reason to change
+- **O(Open Closed Principle)** - classes should be open for extension but closed for modification
+- **L(Liskov Substitution Principle)** - if class _A_ is superclass for class _B_, then we should be able to 
+replace A with B without disrupting the behavior of our program
+- **I(Interface Segregation Principle)** - larger interfaces should be split into smaller ones. We ensure
+that class implementing interface will implement only necessary methods
+- **D(Dependency Inversion Principle)** instead of high level modules depending on low level modules,
+both will depend on abstractions
+
+[Source](https://www.baeldung.com/solid-principles)
+
+## Can you give an example of Single Responsibility Principle?
+
+[//]: # (todo)
 
 # Источники
 + [DevColibri](https://devcolibri.com/%d1%87%d1%82%d0%be-%d1%82%d0%b0%d0%ba%d0%be%d0%b5-%d0%be%d0%be%d0%bf-%d0%b8-%d1%81-%d1%87%d0%b5%d0%bc-%d0%b5%d0%b3%d0%be-%d0%b5%d0%b4%d1%8f%d1%82/)
