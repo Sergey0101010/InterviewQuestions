@@ -373,6 +373,18 @@ public class SomeClass {
 
 [к оглавлению](#Многопоточность)
 
+## For example, you have POJO class with getter and setter methods, and you want to synchronize them, is there any reason to synchronize getters too?
+In general, you should always synchronize getters and setters. When a thread reads variable without synchronization
+it may see a stale value, because at the moment of your reading some other thread may start setting value but not 
+finished yet and you'll read old value, in case of full synchronization this situation won't happen in any case.
+
+But in some cases with reading primitives (except `double` and `long`) you may not be so careful because these 
+primitives are volatile. 
+
+[StackOverflow](https://stackoverflow.com/a/11459616)
+
+[к оглавлению](#Многопоточность)
+
 ## Для чего используется ключевое слово `volatile`, `synchronized`, `transient`, `native`?
 __`volatile`__ - этот модификатор вынуждает потоки отключить оптимизацию доступа и использовать единственный экземпляр переменной. Если переменная примитивного типа – этого будет достаточно для обеспечения потокобезопасности. Если же переменная является ссылкой на объект – синхронизировано будет исключительно значение этой ссылки. Все же данные, содержащиеся в объекте, синхронизированы не будут!
 
