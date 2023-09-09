@@ -1134,6 +1134,13 @@ class QueueReentrantLock<T> {
 
 [к оглавлению](#Многопоточность)
 
+## What is structural concurrency in Java?
+Structural concurrency was first introduces in Java 19 as incubator feature and in Java 21 as preview feature. 
+Structural concurrency enhance maintainability, reliability and observability of multithreaded code by adopting
+a concurrent programming style that reduces the likelihood of thread leaks and cancellation delays.
+
+
+
 # Источники
 + [Хабрахабр - Многопоточность в Java](https://habrahabr.ru/post/164487/)
 + [IBM DeveloperWorks - Выполнение задач в многопоточном режиме](https://www.ibm.com/developerworks/ru/library/l-java_universe_multithreading_tasks/)
