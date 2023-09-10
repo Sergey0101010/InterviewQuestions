@@ -284,8 +284,16 @@ characteristics.
 - **Message-Driven** reactive systems need to establish a boundary between components by relying on asynchronous
 message passing
 
+## What is publisher-subscriber model?
+Publisher-subscriber model is based on decoupling components in a system, which means that components can
+interact without being tightly coupled, this model involves publisher and subscribers, making it a 
+messaging pattern. Publishers are responsible for sending messages to the system, while 
+subscribers are responsible for receiving those messages.
+
+
 ## What is Spring WebFlux?
 Spring WebFlux is Spring's reactive-stack web framework it's alternative to Spring MVC.
+
 
 
 
