@@ -39,7 +39,9 @@
 + [Что такое `FutureTask`?](#Что-такое-futuretask)
 + [В чем заключаются различия между `CyclicBarrier` и `CountDownLatch`?](#В-чем-заключаются-различия-между-cyclicbarrier-и-countdownlatch)
 + [Что такое _race condition_?](#Что-такое-race-condition)
++ [Write simple program with race condition](#write-simple-program-with-race-condition)
 + [Существует ли способ решения проблемы _race condition_?](#Существует-ли-способ-решения-проблемы-race-condition)
++ [What's the difference between _data race_ and _race condition_?](#whats-the-difference-between-data-race-and-race-condition)
 + [Как остановить поток?](#Как-остановить-поток)
 + [Почему не рекомендуется использовать метод `Thread.stop()`?](#Почему-не-рекомендуется-использовать-метод-threadstop)
 + [Что происходит, когда в потоке выбрасывается исключение?](#Что-происходит-когда-в-потоке-выбрасывается-исключение)
@@ -71,6 +73,8 @@
 + [Напишите потокобезопасную реализацию класса с неблокирующим методом `BigInteger next()`, который возвращает элементы последовательности: `[1, 2, 4, 8, 16, ...]`.](#Напишите-потокобезопасную-реализацию-класса-с-неблокирующим-методом-biginteger-next-который-возвращает-элементы-последовательности-1-2-4-8-16-)
 + [Напишите простейший многопоточный ограниченный буфер с использованием `synchronized`.](#Напишите-простейший-многопоточный-ограниченный-буфер-с-использованием-synchronized)
 + [Напишите простейший многопоточный ограниченный буфер с использованием `ReentrantLock`.](#Напишите-простейший-многопоточный-ограниченный-буфер-с-использованием-reentrantlock)
++ [What is structural concurrency in Java?](#what-is-structural-concurrency-in-java)
++ []
 
 ## Расскажите о модели памяти Java?
 __Модель памяти Java (Java Memory Model, JMM)__ описывает поведение потоков в среде исполнения Java. Это часть семантики языка Java, набор правил, описывающий выполнение многопоточных программ и правил, по которым потоки могут взаимодействовать друг с другом посредством основной памяти.
@@ -461,6 +465,42 @@ __Состояние гонки__ (race condition) - ошибка проекти
 
 [к оглавлению](#Многопоточность)
 
+## Write simple program with race condition
+```java
+class Job implements Runnable {
+    Bankaccount b;
+    Job(Bankaccount b) {
+        this.b = b;
+    }
+    
+    public void run() {
+        if (b != null) {
+            if (b.getBalance() > 100) {
+                makeWithdraw(100);
+            }
+        }
+    }
+  public void makeWithdrawal(int ammount){
+        // decreases amount 
+    b.withdraw(ammount);
+    System.out.println(b.getBalance());
+  }
+
+  public static void main(String[] args) {
+    Bankaccount b = new Bankaccount();
+    Job x = new Job();
+    Job y = new Job();
+    Thread t1 = new Thread(x);
+    Thread t2 = new Thread(y);
+    
+    // race condition
+    t1.start();
+    t2.start();
+  }
+}
+```
+[к оглавлению](#Многопоточность)
+
 ## Существует ли способ решения проблемы _race condition_?
 Распространённые способы решения:
 
@@ -469,6 +509,37 @@ __Состояние гонки__ (race condition) - ошибка проекти
 + __Комбинирование методов__ - вышеперечисленные способы можно комбинировать, копируя «опасные» переменные в синхронизированном блоке. С одной стороны, это снимает ограничение на атомарность, с другой — позволяет избавиться от слишком больших синхронизированных блоков.
 
 Очевидных способов выявления и исправления состояний гонки не существует. Лучший способ избавиться от гонок — правильное проектирование многозадачной системы.
+
+[к оглавлению](#Многопоточность)
+
+## What's the difference between _data race_ and _race condition_?
+No, they are not the same thing. They are not a subset of one another. 
+They are also neither the necessary, nor the sufficient condition for one another.
+
+Data race occurs when 2 instructions from different threads access the same memory location, at least one of these 
+accesses is a write and there is no synchronization that is mandating any order of these accesses.
+
+Race condition is a semantic error, it is a flaw that occurs in the timing or the ordering of events 
+that leads to erroneous program behaviour, many race conditions may be caused by data races, 
+but it is not necessary.
+
+``` 
+Thread 1    Thread 2
+
+lock(l)     lock(l)
+x=1         x=2
+unlock(l)   unlock(l)
+```
+
+In this example writes to x from thread 1 and thread 2 are protected by locks, therefore they are always 
+happening in some order enforced by the order with which the locks are acquired at runtime.
+We just can't know which one happens before the other a priori.
+
+There is no fixed ordering between the writes, because locks can't provide it. If programm's 
+correctness depends on concrete order of thread executions, we say there is race condition, but there is
+no data race
+
+[Stackoverflow](https://stackoverflow.com/a/18049303/22463602)
 
 [к оглавлению](#Многопоточность)
 
