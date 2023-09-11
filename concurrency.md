@@ -30,13 +30,14 @@
 + [На каком объекте происходит синхронизация при вызове `static synchronized` метода?](#На-каком-объекте-происходит-синхронизация-при-вызове-static-synchronized-метода)
 + [Для чего используется ключевое слово `volatile`, `synchronized`, `transient`, `native`?](#Для-чего-используется-ключевое-слово-volatile-synchronized-transient-native)
 + [В чём различия между `volatile` и _Atomic_ переменными?](#В-чём-различия-между-volatile-и-atomic-переменными)
-+ [ В чём заключаются различия между `java.util.concurrent.Atomic*.compareAndSwap()` и `java.util.concurrent.Atomic*.weakCompareAndSwap()`.](#-В-чём-заключаются-различия-между-javautilconcurrentatomiccompareandswap-и-javautilconcurrentatomicweakcompareandswap)
++ [ В чём заключаются различия между `java.util.concurrent.Atomic*.compareAndSwap()` и `java.util.concurrent.Atomic*.weakCompareAndSwap()`.](#в-чём-заключаются-различия-между-javautilconcurrentatomiccompareandswap-и-javautilconcurrentatomicweakcompareandswap)
 + [Что значит _«приоритет потока»_?](#Что-значит-приоритет-потока)
 + [Что такое _«потоки-демоны»_?](#Что-такое-потоки-демоны)
 + [Можно ли сделать основной поток программы демоном?](#Можно-ли-сделать-основной-поток-программы-демоном)
 + [Что значит _«усыпить»_ поток?](#Что-значит-усыпить-поток)
 + [Чем отличаются два интерфейса `Runnable` и `Callable`?](#Чем-отличаются-два-интерфейса-runnable-и-callable)
 + [Что такое `FutureTask`?](#Что-такое-futuretask)
++ [What's the difference between `Future` and `CompletableFuture`]()
 + [В чем заключаются различия между `CyclicBarrier` и `CountDownLatch`?](#В-чем-заключаются-различия-между-cyclicbarrier-и-countdownlatch)
 + [Что такое _race condition_?](#Что-такое-race-condition)
 + [Write simple program with race condition](#write-simple-program-with-race-condition)
@@ -74,7 +75,7 @@
 + [Напишите простейший многопоточный ограниченный буфер с использованием `synchronized`.](#Напишите-простейший-многопоточный-ограниченный-буфер-с-использованием-synchronized)
 + [Напишите простейший многопоточный ограниченный буфер с использованием `ReentrantLock`.](#Напишите-простейший-многопоточный-ограниченный-буфер-с-использованием-reentrantlock)
 + [What is structural concurrency in Java?](#what-is-structural-concurrency-in-java)
-+ []
++ [What are virtual threads in java?](#what-are-virtual-threads-in-java-and-why-they-were-created)
 
 ## Расскажите о модели памяти Java?
 __Модель памяти Java (Java Memory Model, JMM)__ описывает поведение потоков в среде исполнения Java. Это часть семантики языка Java, набор правил, описывающий выполнение многопоточных программ и правил, по которым потоки могут взаимодействовать друг с другом посредством основной памяти.
@@ -446,6 +447,17 @@ __`synchronized`__ - это зарезервированное слово поз
 `FutureTask` представляет собой отменяемое асинхронное вычисление в параллельном Java приложении. Этот класс предоставляет базовую реализацию `Future`, с методами для запуска и остановки вычисления, методами для запроса состояния вычисления и извлечения результатов. Результат может быть получен только когда вычисление завершено, метод получения будет заблокирован, если вычисление ещё не завершено. Объекты `FutureTask` могут быть использованы для обёртки объектов `Callable` и `Runnable`. Так как `FutureTask` реализует `Runnable`, его можно передать в `Executor` на выполнение.
 
 [к оглавлению](#Многопоточность)
+
+## What's the difference between `Future` and `CompletableFuture`?
+_Futures_ were introduced in java 5, they basically placeholders for a result of an operation
+that hasn't finished yet, once the operation finishes, the `Future` will contain that result. 
+For example, an operation can be a _Runnable_ or _Callable_ instance that is submitted to an `ExecutorService`. 
+The submitter of the operation can use the `Future` object to check whether the operation `isDone()` or wait for it to
+finish using the blocking `get()` method.
+
+**CompletableFuture** was introduced in java 8, it's evolution of _Future_ inspired by Googles's _Listenable future_, 
+you can use them to make task chains. You can use them to tell some worker thread to "go do some task X, and when you're done, go do this other thing using the result of X".
+Using CompletableFutures, you can do something with the result of the operation without actually blocking a thread to wait for the result.
 
 ## В чем заключаются различия между `CyclicBarrier` и `CountDownLatch`?
 `CountDownLatch` (замок с обратным отсчетом) предоставляет возможность любому количеству потоков в блоке кода ожидать до тех пор, пока не завершится определенное количество операций, выполняющихся в других потоках, перед тем как они будут «отпущены», чтобы продолжить свою деятельность. В конструктор `CountDownLatch(int count)` обязательно передается количество операций, которое должно быть выполнено, чтобы замок «отпустил» заблокированные потоки.
@@ -1210,7 +1222,17 @@ Structural concurrency was first introduces in Java 19 as incubator feature and 
 Structural concurrency enhance maintainability, reliability and observability of multithreaded code by adopting
 a concurrent programming style that reduces the likelihood of thread leaks and cancellation delays.
 
+## What are virtual threads in java and why they were created?
+Virtual threads are very light in terms of performance threads in java(usually java `Thread` objects mapped directly to
+OS threads). Before virtual threads in java, OS must allocate a large amount of memory in the stack to store the thread 
+context and java call stacks and OS is limited to amount of threads it effectively can create.
 
+Also, java tried to simplify multithreading programming and wanted to provide more straightforward way to write 
+concurrent programs by allowing user to create new thread for every concurrent task. 
+
+In such approach, every thread can use its own local variable to store information, need to share stated among threads 
+decreases, vitual threads are an alternate implementation of `java.lang.Thread`, which stores the stack of frames in the
+heap instead of stack.
 
 # Источники
 + [Хабрахабр - Многопоточность в Java](https://habrahabr.ru/post/164487/)
