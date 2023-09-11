@@ -44,7 +44,7 @@
 + [Каким образом передаются переменные в методы, по значению или по ссылке?](#Каким-образом-передаются-переменные-в-методы-по-значению-или-по-ссылке)
 + [Для чего нужен сборщик мусора?](#Для-чего-нужен-сборщик-мусора)
 + [Как работает сборщик мусора?](#Как-работает-сборщик-мусора)
-+ [Какие разновидности сборщиков мусора реализованы в виртуальной машине HotSpot?](#Какие-разновидности-сборщиков-мусора-реализованы-в-виртуальной-машине-hotspot)
++ [What types of Garbage collectors exist in HotSpot JVM?](#what-types-of-garbage-collectors-exist-in-hotspot-jvm)
 + [Опишите алгоритм работы какого-нибудь сборщика мусора, реализованного в виртуальной машине HotSpot.](#Опишите-алгоритм-работы-какого-нибудь-сборщика-мусора-реализованного-в-виртуальной-машине-hotspot)
 + [Что такое «пул строк»?](#Что-такое-пул-строк)
 + [Что такое `finalize()`? Зачем он нужен?](#Что-такое-finalize-Зачем-он-нужен)
@@ -885,13 +885,21 @@ __Reference counting__ (подсчёт ссылок). Суть этого под
 
 [к оглавлению](#java-core)
 
-## Какие разновидности сборщиков мусора реализованы в виртуальной машине HotSpot?
-Java HotSpot VM предоставляет разработчикам на выбор четыре различных сборщика мусора:
+## What types of Garbage collectors exist in HotSpot JVM?
+Java HotSpot VM has 5 types of garbage collectors.
 
-+ __Serial (последовательный)__ — самый простой вариант для приложений с небольшим объемом данных и не требовательных к задержкам. На данный момент используется сравнительно редко, но на слабых компьютерах может быть выбран виртуальной машиной в качестве сборщика по умолчанию. Использование Serial GC включается опцией `-XX:+UseSerialGC`.
-+ __Parallel (параллельный)__ — наследует подходы к сборке от последовательного сборщика, но добавляет параллелизм в некоторые операции, а также возможности по автоматической подстройке под требуемые параметры производительности. Параллельный сборщик включается опцией `-XX:+UseParallelGC`.
-+ __Concurrent Mark Sweep (CMS)__ — нацелен на снижение максимальных задержек путем выполнения части работ по сборке мусора параллельно с основными потоками приложения. Подходит для работы с относительно большими объемами данных в памяти. Использование CMS GC включается опцией `-XX:+UseConcMarkSweepGC`.
-+ __Garbage-First (G1)__ — создан для замены CMS, особенно в серверных приложениях, работающих на многопроцессорных серверах и оперирующих большими объемами данных. _G1_ включается опцией Java `-XX:+UseG1GC`.
++ __Serial GC__ — Used where just one thread executed the GC, freezes all app threads when working, to use it, execute: `-XX:+UseSerialGC`.
++ __Parallel GC__ — Used where multiple minor threads are executed simultaneously, also freezes all app threads, 
+if you want to use it: `-XX:+UseParallelGC`.
++ __Concurrent Mark Sweep (CMS)__ —  Similar to parallel, reduces stop-the-world paused. 
+Has 2 phases **Mark phase and Sweep phase**, _mark phase_ mark all live objects and executes in multiple threads, it stops all app threads, 
+_sweep phase_ run simultaneously with app threads, but because of this uses more CPU, to activate: `-XX:+UseConcMarkSweepGC`.
++ __Garbage-First (G1)__ — Used when we have large heap(>4gb). It partitions heap into set of equal size
+regions and uses multiple threads to scan them and mark objects as live or dead,
+after marking G1 knows which regions contains the most garbage and sweeps them. 
+Works concurrently with the app. To use it: `-XX:+UseG1GC`.
++ **Z Garbage collector** was introduced in java 11 and in java 15 set to default. Highly scalable and low-latency GC. 
+Performs very expensive tasks concurrently without stopping the world, to use it: `-XX:+UseZGC`
 
 [к оглавлению](#java-core)
 
@@ -919,6 +927,12 @@ __Serial Garbage Collector (Последовательный сборщик му
 Когда свободная память представляет собой непрерывную область, то для выделения памяти под создаваемый объект можно использовать очень быстрый (около десятка машинных инструкций) алгоритм _bump-the-pointer_: адрес начала свободной памяти хранится в специальном указателе, и когда поступает запрос на создание нового объекта, код проверяет, что для нового объекта достаточно места, и, если это так, то просто увеличивает указатель на размер объекта.
 
 Последовательный сборщик мусора отлично подходит для большинства приложений, использующих до 200 мегабайт кучи, работающих на машинах клиентского типа и не предъявляющих жёстких требований к величине пауз, затрачиваемых на сборку мусора. В то же время модель «stop-the-world» может вызвать длительные паузы в работе приложения при использовании больших объёмов памяти. Кроме того, последовательный алгоритм работы не позволяет оптимально использовать вычислительные ресурсы компьютера, и последовательный сборщик мусора может стать узким местом при работе приложения на многопроцессорных машинах.
+
+[к оглавлению](#java-core)
+
+## Describe most popular memory switches to tune heap
+
+[//]: # (TODO)
 
 [к оглавлению](#java-core)
 
