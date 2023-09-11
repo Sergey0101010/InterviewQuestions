@@ -24,6 +24,7 @@
 + [Какое исключение выбрасывается при возникновении ошибки в блоке инициализации класса?](#Какое-исключение-выбрасывается-при-возникновении-ошибки-в-блоке-инициализации-класса)
 + [Может ли статический метод быть переопределён или перегружен?](#Может-ли-статический-метод-быть-переопределён-или-перегружен)
 + [Могут ли нестатические методы перегрузить статические?](#Могут-ли-нестатические-методы-перегрузить-статические)
++ [Is Java "pass-by-reference" or "pass-by-value"?](#is-java-pass-by-reference-or-pass-by-value)
 + [Можно ли сузить уровень доступа/тип возвращаемого значения при переопределении метода?](#Можно-ли-сузить-уровень-доступатип-возвращаемого-значения-при-переопределении-метода)
 + [Возможно ли при переопределении метода изменить: модификатор доступа, возвращаемый тип, тип аргумента или их количество, имена аргументов или их порядок; убирать, добавлять, изменять порядок следования элементов секции `throws`?](#Возможно-ли-при-переопределении-метода-изменить-модификатор-доступа-возвращаемый-тип-тип-аргумента-или-их-количество-имена-аргументов-или-их-порядок-убирать-добавлять-изменять-порядок-следования-элементов-секции-throws)
 + [Как получить доступ к переопределенным методам родительского класса?](#Как-получить-доступ-к-переопределенным-методам-родительского-класса)
@@ -479,6 +480,66 @@ public class TestClass {
 
 ## Могут ли нестатические методы перегрузить статические?
 Да. В итоге получится два разных метода. Статический будет принадлежать классу и будет доступен через его имя, а нестатический будет принадлежать конкретному объекту и доступен через вызов метода этого объекта.
+
+[к оглавлению](#java-core)
+
+## Is Java "pass-by-reference" or "pass-by-value"?
+Pass-by-value means that the _value_ of a variable is passed to a function/method. 
+Pass-by-reference means that a _reference_ to variable is passed to the function
+
+By those definitions java is always **pass-by-value**. But in java when you deal with variables 
+holding objects we are really dealing with object handlers called _references_ which are passed-by-value as 
+well.
+You can see it via example.
+```java
+public static void main(String[] args) {
+        Dog aDog = new Dog("Max");
+        Dog oldDog = aDog;
+
+        // we pass the object to foo
+        foo(aDog);
+        // aDog variable is still pointing to the "Max" dog when foo(...) returns
+        aDog.getName().equals("Max"); // true
+        aDog.getName().equals("Fifi"); // false
+        aDog == oldDog; // true
+        }
+
+public static void foo(Dog d) {
+        d.getName().equals("Max"); // true
+        // change d inside of foo() to point to a new Dog instance "Fifi"
+        d = new Dog("Fifi");
+        d.getName().equals("Fifi"); // true
+        }
+```
+In this example we see that `aDog.getName()` still returns `Max`. The value `aDog` is not changed in the function
+`foo` with the Dog `"Fifi"` as the object reference is passed by value. If it were passed by reference, 
+then the `aDog.getName()` in main would return `"Fifi"` after the call of `foo`. 
+
+```java
+public static void main(String[] args) {
+    Dog aDog = new Dog("Max");
+    Dog oldDog = aDog;
+
+    // we pass the object to foo
+    foo(aDog);
+    // aDog variable is still pointing to the "Max" dog when foo(...) returns
+    aDog.getName().equals("Max"); // true
+    aDog.getName().equals("Fifi"); // false
+    aDog == oldDog; // true
+}
+
+public static void foo(Dog d) {
+    d.getName().equals("Max"); // true
+    // change d inside of foo() to point to a new Dog instance "Fifi"
+    d = new Dog("Fifi");
+    d.getName().equals("Fifi"); // true
+}
+```
+In this example, `Fifi` is the dog's name after call `foo(aDog)` because the object's name was set inside
+of `foo(..)` 
+
+[stackoverflow 1](https://stackoverflow.com/a/40523/22463602)
+[stackoverflow 2](https://stackoverflow.com/a/430958/22463602)
 
 [к оглавлению](#java-core)
 
