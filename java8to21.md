@@ -7,7 +7,7 @@
 - [Module system](https://openjdk.org/jeps/261) - Modules system, java 9
 - [Local-Variable Type Inference](https://openjdk.org/jeps/286) -  java 10
 - [Local-Variable Syntax for Lambda Parameters](https://openjdk.org/jeps/323) - java 11
-- [Switch Expressions](https://openjdk.org/jeps/361) - New keyword `yield`, java 14 
+- [Switch Expressions](https://openjdk.org/jeps/361) - New keyword `yield` and `switch` expression java 14 
 - [Text blocks](https://openjdk.org/jeps/378) - java 15
 - [Pattern Matching for instanceof](https://openjdk.org/jeps/394) - Java 16
 - [Records](https://openjdk.org/jeps/395) - java 16
@@ -64,6 +64,58 @@ No, local variables declared with `var` are non-final by default. But you can de
 Yes, you can do it. 
 If lambda expression may be _implicitly typed_ like this: `(x, y) -> x.process(y)` in java 11 you can now do
 `(var x, var y) -> x.process(y)` this thing is basically done for uniformity with local variables and 
-using `var` in implicit lambdas you can apply to it's parameters annotations like `@Nonnull` 
+using `var` in implicit lambdas you can apply to its parameters annotations like `@Nonnull` 
+
+## What is switch expression and what how it differs from switch statement?
+In older versions of java than java 14, were only switch statements, which allow you to check some 
+condition for multivalued variable, and in java 14 _switch expression_ was released. 
+Like any expression, `switch` expression evaluate to a single value, and can be used in statements, it also 
+introduced _arrow case_ labels eliminating need for `break` statements to prevent fall through.
+
+Ex:
+```java
+enum PaymentStatus {
+    UNPAID, PARTPAID, PAID, DISPUTED, UNKNOWN;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        PaymentStatus paymentStatus = PaymentStatus.PARTPAID;
+
+        String message = switch (paymentStatus) {
+        case UNPAID -> "The order has not been paid yet. Please make the minimum/full amount to procced.";
+        case PARTPAID -> "The order is partially paid. Some features will not be available. Please check the brochure for details.";
+        case PAID -> "The order is fully paid. Please choose the desired items from the menu.";
+        default -> throw new IllegalStateException("Invalid payment status: " + paymentStatus);
+        };
+
+        System.out.println(message);
+    }
+}
+```
+
+## What is the keyword `yield` used for?
+Keyword `yield` is used in `switch` expression instead of the narrow operator to return a value from `switch` 
+expression.
+```java
+public class Main {
+    public static void main(String[] args) {
+        PaymentStatus paymentStatus = PaymentStatus.PARTPAID;
+
+        String message = switch (paymentStatus) {
+        case UNPAID:
+            yield "The order has not been paid yet. Please make the minimum/full amount to procced.";
+        case PARTPAID:
+            yield "The order is partially paid. Some features will not be available. Please check the brochure for details.";
+        case PAID:
+            yield "The order is fully paid. Please choose the desired items from the menu.";
+        default:
+            throw new IllegalStateException("Invalid payment status: " + paymentStatus);
+        };
+
+        System.out.println(message);
+    }
+}
+```
 
 
