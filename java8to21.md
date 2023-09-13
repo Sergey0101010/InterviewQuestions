@@ -60,3 +60,10 @@ Yes, you can. In this case you'll get your generic type replaced with `Object`
 No, local variables declared with `var` are non-final by default. But you can declare them as final
 `final var = new Person();` 
 
+## Can you use `var` with lambda parameters?
+Yes, you can do it. 
+If lambda expression may be _implicitly typed_ like this: `(x, y) -> x.process(y)` in java 11 you can now do
+`(var x, var y) -> x.process(y)` this thing is basically done for uniformity with local variables and 
+using `var` in implicit lambdas you can apply to it's parameters annotations like `@Nonnull` 
+
+
