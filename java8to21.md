@@ -118,4 +118,89 @@ public class Main {
 }
 ```
 
+## What is text block in java?
+Text blocks are the java 15 feature allowed new more readable way of writing multiline strings, text block
+starts with a """ followed by newline
+```java
+String example = """
+    Example text""";
+```
+Result of a text block is still a string, text blocks just provide us with another way to write String literals 
+in our source code. 
+
+Inside the text blocks, we can freely use newlines and quotes without the need for escaping line breaks.
+
+## Is it allowed to use _formatting_ with text blocks?
+Yes, you can use `String.format()` method directly on text block
+```java
+public String getFormattedText(String parameter) {
+    return """
+            Some parameter: %s
+            """.formatted(parameter);
+}
+```
+## What is pattern matching for instanceof?
+Pattern matching involves testing whether an object has a particular structure, then extracting data from that 
+object if there's a match. You can already do this in java, but since release of java 16, you have new
+language enhancements that enable you to conditionally extract data from object.
+
+```java
+public static double getPerimeter(Shape shape) throws IllegalArgumentException {
+        if (shape instanceof Rectangle r) { // instead of casting after
+            return 2 * r.length() + 2 * r.width();
+        } else if (shape instanceof Circle c) {
+            return 2 * c.radius() * Math.PI;
+        } else {
+            throw new IllegalArgumentException("Unrecognized shape");
+        }
+    }
+```
+
+## Tell about record classes
+Record classes are a special kind of class, help to model plain aggregates with less boilerplate 
+than normal classes.
+A record declaration specifies in a header a description of its contents, the appropriate accessors, constructor, 
+`equals()`, `hashCode()`, `toString` are created automatically. A record's fields are `final`. 
+
+```java
+record Rectangle(double length, double width) { }
+```
+Automatically generates getters for all fields, like `length()` and `width()`, both fields are `final`
+
+## Is it possible to create custom getters or other by-default implemented methods in record?
+Yes, it is possible to change any of the methods inside record class, just write same signature
+as it was before
+```java
+record Rectangle(double length, double width) {
+ 
+    public double length() {
+        System.out.println("Length is " + length);
+        return length;
+    }
+}
+```
+
+## What are you allowed to place inside record class?
+1. You can declare canonic record constructor(All args constructor) 
+```java
+record Rectangle(double length, double width) {
+    public Rectangle {
+        if (length <= 0 || width <= 0) {
+            throw new java.lang.IllegalArgumentException(
+                String.format("Invalid dimensions: %f, %f", length, width));
+        }
+    }
+}
+```
+2. public getter methods(just use same signature)
+3. Declare static fields, static initializers, static methods, and they behave as they would in normal class
+4. You can declare instance methods in a record class, nested classes, even nested record classes(static implicitly)
+
+You can't declare non-static fields inside records, and you can't declare `native` methods inside records
+
+## Are you allowed to create record which implements some interface or using generics?
+Yes, you can in both cases
+`record Customer(..) implements Billable{}`
+ 
+`record Triangle<C extends Coordinate> (..)`
 
