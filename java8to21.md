@@ -204,3 +204,85 @@ Yes, you can in both cases
  
 `record Triangle<C extends Coordinate> (..)`
 
+## what are sealed classes in java and why we need them
+Sealing allows classes and interfaces to define their permitted subtypes.
+With sealing, we increase clarity of code
+
+## give an example of sealed interface
+Permits section should be defined after any extends or implements clause
+
+public sealed interface Service permits
+Car, Truck {
+
+}
+
+## is it allowed to extend class which is in sealed hierarchy
+Subclasses of sealed class or interfaces must explicitly define modifier:  final, sealed, non-sealed
+
+If we define class as non sealed, then it might be super class of any other class
+
+## what is key encapsulation API
+
+Key encapsulation (https://en.wikipedia.org/wiki/Key_encapsulation_mechanism) is a modern cryptographic technique 
+that secures symmetric keys using asymmetric or public key cryptography
+
+key encapsulation mechanism (KEM) instead uses properties of the public key to derive a related symmetric key, which requires no padding
+Kem consists of three functions
+⁃ Key pair generation function
+⁃ Key encapsulation function, called by sender
+⁃ Key decapsulation function
+
+Key pair generation function already exist(KeyPairGenerator API), so kem API defines encapsulation and decapsulation functions
+
+## what is record pattern?
+A record pattern is a construct that allows us to match values against a record type and bind variables to corresponding components of the record
+
+Example:
+
+if (o instanceof Location (String name, GPSPoint gpsPoint)) {
+System.out.println(name);
+}
+
+if (o instanceof Location (var name, GPSPoint(var latitude, var longitude))) {
+System.out.println("lat: " + latitude + ", lng: " + longitude);
+}
+
+We can access record variables if instance of evaluates to true, it is true only if o variable has exactly matching type with comparing type
+
+We also can use record patterns in switch expression
+
+Double result = switch (object) {
+case Location(var name, GPSPoint(var latitude, var longitude)) -> latitude;
+default -> 0.0;
+};
+
+## can we use record patterns with generics Like Record <Record 2>
+Yes, we can
+
+Wrapper<Location> wrapper = new Wrapper<>(new Location("Home", new GPSPoint(1.0, 2.0)), "Description");
+if (wrapper instanceof Wrapper<Location>(var location, var description)) {
+System.out.println(description);
+}
+
+## What are sequenced collections and why they were added?
+A sequenced collection is a Collection which elements have a defined encounter order. 
+A sequenced collection has first and last elements and every element between them has successors and predecessors
+
+## What methods do sequenced collections have
+
+interface SequencedCollection<E> extends Collection<E> {
+// new method
+SequencedCollection<E> reversed();
+// methods promoted from Deque
+void addFirst(E);
+void addLast(E);
+E getFirst();
+E getLast();
+E removeFirst();
+E removeLast();
+}
+
+## What subtypes of sequenced collections do you know
+SequencedSet<T> for collections where you can't add duplicates
+SequencedMap<T> for maps which support entries order
+
