@@ -223,7 +223,7 @@ If we define class as non sealed, then it might be super class of any other clas
 
 ## what is key encapsulation API
 
-Key encapsulation (https://en.wikipedia.org/wiki/Key_encapsulation_mechanism) is a modern cryptographic technique 
+Key encapsulation is a modern cryptographic technique 
 that secures symmetric keys using asymmetric or public key cryptography
 
 key encapsulation mechanism (KEM) instead uses properties of the public key to derive a related symmetric key, which requires no padding
@@ -238,6 +238,7 @@ Key pair generation function already exist(KeyPairGenerator API), so kem API def
 A record pattern is a construct that allows us to match values against a record type and bind variables to corresponding components of the record
 
 Example:
+```java
 
 if (o instanceof Location (String name, GPSPoint gpsPoint)) {
 System.out.println(name);
@@ -255,14 +256,16 @@ Double result = switch (object) {
 case Location(var name, GPSPoint(var latitude, var longitude)) -> latitude;
 default -> 0.0;
 };
+```
 
 ## can we use record patterns with generics Like Record <Record 2>
 Yes, we can
-
+```java
 Wrapper<Location> wrapper = new Wrapper<>(new Location("Home", new GPSPoint(1.0, 2.0)), "Description");
 if (wrapper instanceof Wrapper<Location>(var location, var description)) {
 System.out.println(description);
 }
+```
 
 ## What are sequenced collections and why they were added?
 A sequenced collection is a Collection which elements have a defined encounter order. 
@@ -270,6 +273,7 @@ A sequenced collection has first and last elements and every element between the
 
 ## What methods do sequenced collections have
 
+``` java
 interface SequencedCollection<E> extends Collection<E> {
 // new method
 SequencedCollection<E> reversed();
@@ -281,7 +285,7 @@ E getLast();
 E removeFirst();
 E removeLast();
 }
-
+```
 ## What subtypes of sequenced collections do you know
 SequencedSet<T> for collections where you can't add duplicates
 SequencedMap<T> for maps which support entries order
