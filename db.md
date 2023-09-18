@@ -1,10 +1,10 @@
 [Вопросы для собеседования](README.md)
 
 # Databases
-+ [Что такое _«база данных»_?](#Что-такое-база-данных)
-+ [Что такое _«система управления базами данных»_?](#Что-такое-система-управления-базами-данных)
-+ [Что такое _«реляционная модель данных»_?](#Что-такое-реляционная-модель-данных)
-+ [Дайте определение терминам _«простой»_, _«составной» (composite)_, _«потенциальный» (candidate)_ и _«альтернативный» (alternate)_ ключ.](#Дайте-определение-терминам-простой-составной-composite-потенциальный-candidate-и-альтернативный-alternate-ключ)
++ [Что такое _«база данных»_?](#what-is-database)
++ [Что такое _«система управления базами данных»_?](#what-is-database-management-system-dbms)
++ [Что такое _«реляционная модель данных»_?](#what-is-relational-data-model)
++ [Дайте определение терминам _«простой»_, _«составной» (composite)_, _«потенциальный» (candidate)_ и _«альтернативный» (alternate)_ ключ.](#define-the-terms-simple-key-composite-key-candidate-key-и-alternate-key)
 + [Что такое _«первичный ключ» (primary key)_? Каковы критерии его выбора?](#Что-такое-первичный-ключ-primary-key-Каковы-критерии-его-выбора)
 + [Что такое _«внешний ключ» (foreign key)_?](#Что-такое-внешний-ключ-foreign-key)
 + [Что такое _«нормализация»_?](#Что-такое-нормализация)
@@ -23,41 +23,46 @@
 + [What's the difference between optimistic and pessimistic locking?](#whats-the-difference-between-optimistic-and-pessimistic-locking)
 
 
-## Что такое _«база данных»_?
-__База данных__ — организованный и адаптированный для обработки вычислительной системой набор информации.
+## What is database?
+__Database__ is an organized collection of data stored and accessed electronically through the 
+use of database management system
 
 [Table of contents](#databases)
 
-## Что такое _«система управления базами данных»_?
-__Система управления базами данных (СУБД)__ - набор средств общего или специального назначения, обеспечивающий создание, доступ к материалам и управление базой данных.
+## What is database management system (DBMS)?
+__Database management system (DBMS)__ is the software that interacts with end users, application, 
+and the database itself to capture and analyze the data.
 
-Основные функции СУБД:
+Main functions of the DBSM:
 
-+ управление данными
-+ журнализация изменений данных
-+ резервное копирование и восстановление данных;
-+ поддержка языка определения данных и манипулирования ими.
-
-[Table of contents](#databases)
-
-## Что такое _«реляционная модель данных»_?
-__Реляционная модель данных__ — это логическая модель данных и прикладная теория построения реляционных баз данных.
-
-Реляционная модель данных включает в себя следующие компоненты:
-
-+ _Структурный аспект_ — данные представляют собой набор отношений.
-+ _Аспект целостности_ — отношения отвечают определенным условиям целостности: уровня домена (типа данных), уровня отношения и уровня базы данных.
-+ _Аспект обработки (манипулирования)_ — поддержка операторов манипулирования отношениями (реляционная алгебра, реляционное исчисление).
-+ _Нормальная форма_ - свойство отношения в реляционной модели данных, характеризующее его с точки зрения избыточности и определённое как совокупность требований, которым должно удовлетворять отношение.
++ Data storage management 
++ Data transformation and presentation
++ Backup and recovery management
++ Security management
 
 [Table of contents](#databases)
 
-## Дайте определение терминам _«простой»_, _«составной» (composite)_, _«потенциальный» (candidate)_ и _«альтернативный» (alternate)_ ключ.
-__Простой ключ__ состоит из одного атрибута (поля). __Составной__ - из двух и более.
+## What is relational data model?
+__Relational data model__ is an approach to managing data using a structure and language consistent with 
+first-order predicate logic
 
-__Потенциальный ключ__ - простой или составной ключ, который уникально идентифицирует каждую запись набора данных. При этом потенциальный ключ должен обладать критерием неизбыточности: при удалении любого из полей набор полей перестает уникально идентифицировать запись.
+Relational model concepts:
 
-Из множества всех потенциальных ключей набора данных выбирают первичный ключ, все остальные ключи называют __альтернативными__.
++ **Attribute** — properties which define a relation
++ **Tables** Relations are saved in the table format, it stored along with entities
++ **Tuple** It's a single row of a table, which contains a single record
+- **Relation schema** A relation schema represents the name of the relation with its attributes
++ **Attribute domain** Every attribute has some pre-defined value and scope which is known as attribute domain
+
+[Table of contents](#databases)
+
+## Define the terms: _simple key_, _composite key_, _candidate key_ и _alternate key_.
+__Simple key__ consist of a single field to uniquely identify a record.
+__Composite key__ - 2 or more keys
+
+__Candidate key__ - simple or least composite key, which uniquely identifies each record in the table.
+
+From all _candidate keys_ choose one and call it **primary key** all other keys called _alternative keys_
 
 [Table of contents](#databases)
 
