@@ -2,9 +2,9 @@
 
 # Java 8 to Java 21
 
-## What's new in Java 21 и JDK 21?
+## What's new in Java 21 & JDK 21?
 
-- [Module system](https://openjdk.org/jeps/261) - Modules system, java 9
+- [Module system](https://openjdk.org/jeps/261) -  java 9
 - [Local-Variable Type Inference](https://openjdk.org/jeps/286) -  java 10
 - [Local-Variable Syntax for Lambda Parameters](https://openjdk.org/jeps/323) - java 11
 - [Switch Expressions](https://openjdk.org/jeps/361) - New keyword `yield` and `switch` expression java 14 
@@ -204,11 +204,11 @@ Yes, you can in both cases
  
 `record Triangle<C extends Coordinate> (..)`
 
-## what are sealed classes in java and why we need them
+## What are sealed classes in java and why we need them
 Sealing allows classes and interfaces to define their permitted subtypes.
 With sealing, we increase clarity of code
 
-## give an example of sealed interface
+## Give an example of sealed interface
 Permits section should be defined after any extends or implements clause
 
 public sealed interface Service permits
@@ -216,12 +216,12 @@ Car, Truck {
 
 }
 
-## is it allowed to extend class which is in sealed hierarchy
+## Is it allowed to extend class which is in sealed hierarchy
 Subclasses of sealed class or interfaces must explicitly define modifier:  final, sealed, non-sealed
 
 If we define class as non sealed, then it might be super class of any other class
 
-## what is key encapsulation API
+## What is key encapsulation API
 
 Key encapsulation is a modern cryptographic technique 
 that secures symmetric keys using asymmetric or public key cryptography
@@ -234,7 +234,7 @@ Kem consists of three functions
 
 Key pair generation function already exist(KeyPairGenerator API), so kem API defines encapsulation and decapsulation functions
 
-## what is record pattern?
+## What is record pattern?
 A record pattern is a construct that allows us to match values against a record type and bind variables to corresponding components of the record
 
 Example:
@@ -258,7 +258,7 @@ default -> 0.0;
 };
 ```
 
-## can we use record patterns with generics Like Record <Record 2>
+## Can we use record patterns with generics Like Record <Record 2>?
 Yes, we can
 ```java
 Wrapper<Location> wrapper = new Wrapper<>(new Location("Home", new GPSPoint(1.0, 2.0)), "Description");
@@ -271,7 +271,7 @@ System.out.println(description);
 A sequenced collection is a Collection which elements have a defined encounter order. 
 A sequenced collection has first and last elements and every element between them has successors and predecessors
 
-## What methods do sequenced collections have
+## What methods do sequenced collections have?
 
 ``` java
 interface SequencedCollection<E> extends Collection<E> {
@@ -286,7 +286,7 @@ E removeFirst();
 E removeLast();
 }
 ```
-## What subtypes of sequenced collections do you know
+## What subtypes of sequenced collections do you know?
 SequencedSet<T> for collections where you can't add duplicates
 SequencedMap<T> for maps which support entries order
 
