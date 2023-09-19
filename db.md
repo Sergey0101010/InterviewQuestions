@@ -33,7 +33,7 @@ use of database management system
 __Database management system (DBMS)__ is the software that interacts with end users, application, 
 and the database itself to capture and analyze the data.
 
-Main functions of the DBMS:
+Main functions of the DBSM:
 
 + Data storage management 
 + Data transformation and presentation
