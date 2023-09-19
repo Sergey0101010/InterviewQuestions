@@ -8,6 +8,8 @@
 + [Какие существуют уровни модели _OSI_?](#Какие-существуют-уровни-модели-osi)
 + [Что такое _TCP/IP_?](#Что-такое-tcpip)
 + [Почему интернет построен на основе TCP/IP стека, а не OSI?](#почему-интернет-построен-на-основе-tcpip-стека)
++ [What is DNS and how it works?](#what-is-dns-and-how-it-works)
++ [What's the difference between IPv4 and IPv6?](#whats-the-difference-between-ipv4-and-ipv6)
 + [Что такое _UDP_?](#Что-такое-udp)
 + [Чем отличаются _TCP_ и _UDP_?](#Чем-отличаются-tcp-и-udp)
 + [Что такое протокол передачи данных? Какие протоколы вы знаете?](#Что-такое-протокол-передачи-данных-Какие-протоколы-вы-знаете)
@@ -22,6 +24,8 @@
 + [Расскажите о TLS и SSL протоколах и чем они отличаются](#расскажите-о-ssl-и-tls-протоколах-чем-они-отличаются)
 + [Чем отличаются методы _GET_ и _POST_?](#Чем-отличаются-методы-get-и-post)
 + [What's the difference between _PUT_ and _PATCH_?](#whats-the-difference-between-put-and-patch)
++ [How `PATCH` can be idempotent?](#how-patch-can-be-not-idempotent)
++ [What's the difference between HTTP methods `POST` and `PUT`?](#whats-the-difference-between-http-methods-post-and-put)
 + [Что такое _MIME тип_?](#Что-такое-mime-тип)
 + [Что такое _Web server_?](#Что-такое-web-server)
 + [Что такое _Web application_?](#Что-такое-web-application)
@@ -127,6 +131,16 @@ root servers responses with list of DNS servers responsible for top level domain
 3. When local DNS gets response from root DNS, it sends requests to *top level DNS-servers* from received list. And repeats 
 requests until some _subdomain_ server response with IP of requested service.
 4. Local DNS sends response to DNS-client
+
+[table of contents](#computer-networks)
+
+## What's the difference between IPv4 and IPv6?
+IPv6 is just new version of IPv4 which has more available addresses than IPv4 and some other benefits:
+- **Improved security** 
+- **Simplified header format** Has simpler and more effective header structure, which is more cost-effective 
+and increases the speed of the internet connection
+- **Improved support for mobile devices**
+
 
 ## Что такое _UDP_?
 __UDP, User Datagram Protocol (Протокол пользовательских датаграмм)__ — протокол, который обеспечивает доставку без требований соединения с удаленным модулем UDP и обязательного подтверждения получения.
@@ -328,6 +342,46 @@ changed fields with Request-URI
 - _PUT_ replaces whole entity, while _PATCH_ changes only part of it
 
 [table of contents](#computer-networks)
+
+## How `PATCH` can be not idempotent?
+
+`PATCH` can be idempotent if you create your business logic with this idea in mind, but also it can be not idempotent.
+For example, we have method `PATCH /users` to change users resource, for example it allows request like this:
+
+```
+PATCH /users
+[{ "op": "add", "username": "newuser", "email": "newuser@example.org" }]
+```
+After executing this request multiple times(assume that it is allowed to create duplicate users), we will add the 
+same users to the users list and after every such request their quantity would increase, which proves that request 
+is not idempotent.
+To clearly see that this request is not idempotent, you may think of the request as function `f(x)` where 
+`f(f(x)) = f(x)` is idempotency condition, and if this equation is not true(like in our case),
+then our request is not idempotent. 
+
+[stackoverflow1](https://stackoverflow.com/a/39338329/22463602)
+
+[table of contents](#computer-networks)
+
+## What's the difference between HTTP methods `POST` and `PUT`?
+Both `PUT` and `POST` can be used for creating.
+
+- `PUT` is idempotent, while `POST` is not
+- `PUT` is usually used to update or create new entity, while `POST` is only for creation.  
+
+But it is not so clear which method we should use when we want to change the resource, if it is existing 
+resource, `POST` might be used too, so it's better to choose between them based on the _idempotence_ 
+of the action. `PUT` is for creating when you know the URL of the thing you will create, `POST` can 
+be used to create when you know the URL of the "factory" or manager for the category of things you want to create, so
+```
+POST /expense-report 
+```
+or 
+```
+PUT /expense-report/29382
+```
+
+[stackoverflow2](https://stackoverflow.com/a/2691891/22463602)
 
 ## Что такое _MIME тип_?
 __MIME, Multipurpose Internet Mail Extension (Многоцелевые расширения Интернет-почты)__ — спецификация для передачи по сети файлов различного типа: изображений, музыки, текстов, видео, архивов и др. В HTML указание MIME-типа используется при  передаче данных форм и вставки на страницу различных объектов.
