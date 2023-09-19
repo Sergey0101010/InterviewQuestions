@@ -4,6 +4,7 @@
 + [Что такое _«база данных»_?](#what-is-database)
 + [Что такое _«система управления базами данных»_?](#what-is-database-management-system-dbms)
 + [Что такое _«реляционная модель данных»_?](#what-is-relational-data-model)
++ [What is the difference between OLTP and OLAP databases?](#what-is-the-difference-between-oltp-and-olap-databases)
 + [Дайте определение терминам _«простой»_, _«составной» (composite)_, _«потенциальный» (candidate)_ и _«альтернативный» (alternate)_ ключ.](#define-the-terms-simple-key-composite-key-candidate-key-и-alternate-key)
 + [Что такое _«первичный ключ» (primary key)_? Каковы критерии его выбора?](#Что-такое-первичный-ключ-primary-key-Каковы-критерии-его-выбора)
 + [Что такое _«внешний ключ» (foreign key)_?](#Что-такое-внешний-ключ-foreign-key)
@@ -21,6 +22,9 @@
 + [Какие существуют уровни изолированности транзакций?](#Какие-существуют-уровни-изолированности-транзакций)
 + [Какие проблемы могут возникать при параллельном доступе с использованием транзакций?](#Какие-проблемы-могут-возникать-при-параллельном-доступе-с-использованием-транзакций)
 + [What's the difference between optimistic and pessimistic locking?](#whats-the-difference-between-optimistic-and-pessimistic-locking)
++ [Tell about the terms of replication, partitioning and sharding in distributed data persistence systems](#tell-about-the-terms-of-replication-partitioning-and-sharding-in-distributed-data-persistence-systems)
++ [What are advantages and disadvantages of sharding?](#what-are-advantages-and-disadvantages-of-sharding)
++ [What are advantages and disadvantages of data replication?](#what-are-advantages-and-disadvantages-of-data-replication)
 
 
 ## What is database?
@@ -53,6 +57,19 @@ Relational model concepts:
 + **Tuple** It's a single row of a table, which contains a single record
 - **Relation schema** A relation schema represents the name of the relation with its attributes
 + **Attribute domain** Every attribute has some pre-defined value and scope which is known as attribute domain
+
+[Table of contents](#databases)
+
+## What is the difference between OLTP and OLAP databases?
+- **OLTP**(On-line Transaction Processing) is involved in the operation of a particular system. OLTP 
+is characterized by a large number of short on-line transactions (INSERT, UPDATE, DELETE). 
+- The main purpose of OLTP systems is put on very fast query processing, maintaining data integrity in multi-access environments
+- Effectiveness measured by number of transactions per second
+- In OLTP database there is detailed and current data, and schema used to store transactional databases is 
+the entity model(usually 3NF)
+- **OLAP**(On-line Analytical Processing) deals with historical data or archival data. 
+- OLAP is characterized by relatively low volume of transactions, queries are often very complex and involve aggregations
+- For OLAP _response time_ is an effectiveness measure.  
 
 [Table of contents](#databases)
 
@@ -341,6 +358,46 @@ It has much better integrity than optimistic locking but requires you to be care
 design to avoid deadlocks
 
 [StackOverflow](https://stackoverflow.com/a/129397/22463602)
+
+[Table of contents](#databases)
+
+## Tell about the terms of replication, partitioning and sharding in distributed data persistence systems
+**Replication**(Copying data) - keeping a copy of same data on multiple servers that are connected via a network
+
+**Partitioning** - splitting up a large monolithic database into multiple smaller databases based on data cohesion.
+There are 2 possible types when we want to split data is **horizontal(sharding)** and vertical(improve server hardware)
+
+**Sharding**(Horizontal partitioning) - a type of horizontal partitioning that splits large
+databases into smaller components, which are faster and easier to manage
+
+[Table of contents](#databases)
+
+## What are advantages and disadvantages of sharding?
+- **Solve scalability issue**. With a single database server architecture any application experiences performance 
+degradation, database sharding fixes all these issues by partitioning the dat across multiple machines
+- **High availability**. If something happens with one of the servers in shared architecture, then only specific
+shards will be down
+- **Speed up query response time**
+- **More write bandwidth** 
+
+Disadvantages:
+- **Adds complexity in the system**
+- **Rebalancing data** Sometimes shards become unbalanced (when a shard outgrows other shards) and may create a 
+_database hotspot_
+- **Joining data from multiple shards is expensive** In shared architecture, you need to pull the data from different
+shards, and you need to perform joins across multiple networked servers, it adds **latency**
+
+[Table of contents](#databases)
+
+## What are advantages and disadvantages of data replication?
+
+- Keep data geographically close to users (reduces latency)
+- Allow the system to continue working even if some of its parts have failed (increase availability)
+- Scale number of servers that can serve read queries
+
+Disadvantages:
+- Concurrency is difficult to achive in full replication
+- Slow update because single update must be performed at different databases to keep the copies consistent
 
 [Table of contents](#databases)
 
