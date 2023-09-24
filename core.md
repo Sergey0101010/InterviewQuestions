@@ -1363,6 +1363,38 @@ __Рефлексия (Reflection)__ - это механизм получения
 
 [к оглавлению](#java-core)
 
+## What if we compare using `==` two `boolean` values `new Boolean(false)` and `Boolean.FALSE`?
+
+In this case we will get `false` result because we create `Boolean` wrapper object using `new` keyword 
+and compare it with static instance of `Boolean`, but we compare them not by using `equals()`, but by 
+references, and they will have different references because we are comparing different objects.
+
+[к оглавлению](#java-core)
+
+## What if we compare using `==` two `Integer` values?
+When we compare `Interger` values which are created like this: `Integer int1 = value`, 
+result of comparison will depend on init value of both variables, if their values are in range `-128..127`
+(highest value may be configured by property) then it's value returned from cache and comparison of the
+same `Integer` objects from cache by value return `true`
+
+If our value is out of cached range, but also created like `Integer int1 = value`, we will compare different 
+objects and result of this comparison will be `false`
+
+But any time you compare objects which are created explicitly using Integer's constructor like 
+`Integer int2 = new Integer(anyIntValue)` and compare such objects you will get `false` result, because 
+you'll have 2 separate objects in heap(even if they both contain the same value)
+
+The same applies for all java wrapper classes and their reference comparisons, for `Character` it's range for 
+chars between unicodes: `0..127` 
+
+[Source code to see how caching works](https://github.com/openjdk/jdk/blob/master/src/java.base/share/classes/java/lang/Integer.java#L977)
+
+## What happens when we compare `int` and `Integer` value using `==`?
+When we compare primitive type with its wrapper type, then Wrapper object will be unboxed to primitive type
+and if their values are the same, we will get `true` as result of comparing them using `==`  
+
+[Docs](https://docs.oracle.com/javase/specs/jls/se8/html/jls-5.html#jls-5.1.7)
+
 ## Какая связь между `hashCode()` и `equals()`?
 ## Если `equals()` переопределен, есть ли какие-либо другие методы, которые следует переопределить?
 Равные объекты должны возвращать одинаковые хэш коды. При переопределении `equals()` нужно обязательно переопределять и метод `hashCode()`.

@@ -37,7 +37,7 @@ use of database management system
 __Database management system (DBMS)__ is the software that interacts with end users, application, 
 and the database itself to capture and analyze the data.
 
-Main functions of the DBSM:
+Main functions of the DBMS:
 
 + Data storage management 
 + Data transformation and presentation
@@ -375,7 +375,7 @@ databases into smaller components, which are faster and easier to manage
 ## What are advantages and disadvantages of sharding?
 - **Solve scalability issue**. With a single database server architecture any application experiences performance 
 degradation, database sharding fixes all these issues by partitioning the dat across multiple machines
-- **High availability**. If something happens with one of the servers in shared architecture, then only specific
+- **High availability**. If something happens to one of the servers in shared architecture, then only specific
 shards will be down
 - **Speed up query response time**
 - **More write bandwidth** 
@@ -396,7 +396,7 @@ shards, and you need to perform joins across multiple networked servers, it adds
 - Scale number of servers that can serve read queries
 
 Disadvantages:
-- Concurrency is difficult to achive in full replication
+- Concurrency is difficult to achieve in full replication
 - Slow update because single update must be performed at different databases to keep the copies consistent
 
 [Table of contents](#databases)
