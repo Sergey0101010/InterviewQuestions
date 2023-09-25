@@ -1770,7 +1770,17 @@ void method() {
 }
 ```
 
-[к оглавлению](#java-core)    
+[к оглавлению](#java-core)   
+
+## Is it allowed to return some value in `finally{}` or `catch{}` block?
+Yes, you can do it, if you return value inside `catch{}` block, it will be normally returned if exception will 
+be thrown inside `try{}` and `finally{}` isn't return some value.
+
+In `finally{}` block you also can return some value, but this value will always overrride values which are returned 
+in other blocks like `try{}` and `catch{}`, you should never return anything from `finally{}`, also you may disable 
+the exception which is thrown in your method.
+
+[к оглавлению](#java-core)
 
 ## How do you think, are checked exceptions were bad design decision?
 
@@ -1793,11 +1803,58 @@ So, checked exceptions have more cons, but they are big part of java language an
 [к оглавлению](#java-core)
 
 ## Что такое _generics_?
-__Generics__ - это технический термин, обозначающий набор свойств языка позволяющих определять и использовать обобщенные типы и методы. Обобщенные типы или методы отличаются от обычных тем, что имеют типизированные параметры.
+__Generics__ - это технический термин, обозначающий набор свойств языка позволяющих определять и использовать обобщенные типы и методы. 
+Обобщенные типы или методы отличаются от обычных тем, что имеют типизированные параметры.
 
 Примером использования обобщенных типов может служить _Java Collection Framework_. Так, класс `LinkedList<E>` - типичный обобщенный тип. Он содержит параметр `E`, который представляет тип элементов, которые будут храниться в коллекции. Создание объектов обобщенных типов происходит посредством замены параметризированных типов реальными типами данных. Вместо того, чтобы просто использовать `LinkedList`, ничего не говоря о типе элемента в списке, предлагается использовать точное указание типа `LinkedList<String>`, `LinkedList<Integer>` и т.п.
 
 [к оглавлению](#java-core)
+
+## What is type erasure in java?
+During the type erasure, the java complier erases all type parameters and replaces each with 
+its first bound if the type parameter is bounded or `Object` if type parameter is unbounded.
+
+When generics are _used_ they're converted into compile-time checks and execution-time casts.
+
+## Why we can't use primitive type in generic code?
+Because java use type-erased generics, so in runtime we don't have information about generic type, 
+so any `T t` field is becoming `Object` type in runtime, but as primitives are not derived from `Object`, 
+technically, they are not objects at all, they can't be erased to `Object` and can't be used in generics.
+
+## What are pros and cons of java generics
+Cons:
+- Can't be used with primitives, like `List<byte>`
+- Syntax for constraints can get confusing
+- At execution time you can't tell type of object
+
+Pros:
+- Wildcarding allows covariance/contravariance to be specified at calling side, which is very neat in many situations
+
+[stackoverflow](https://stackoverflow.com/a/520568)
+
+## How code in example with generics will look after compilation?
+```java
+List<String> list = new ArrayList<String>();
+list.add("Hi");
+String x = list.get(0);
+```
+
+After compilation:
+```java
+List list = new ArrayList();
+list.add("Hi");
+String x = (String) list.get(0);
+```
+
+## Why java doesn't have reified generics?
+In early versions of java, there is no generics, they were introduced only in Java 5, and they were 
+implemented as type-erased generics, so information about type is only available in compile time, such 
+decision were made because it allow backward compatibility with pre Java 5 code, because there is no information
+about generics in runtime.
+
+Java supports reification for most of the types, like primitives, non-parameterised types, array of primitives, etc
+But parameterized types (`List<Number>`) is not reifiable in Java and bounded parameterized 
+types like `List<? extends Number>`, they lose their type information at runtime due type erasure. 
 
 ## What is heap pollution?
 Heap pollution implies that we have bad data in our memory. In java language, heap pollution is a situation that occurs 
@@ -1819,6 +1876,7 @@ class MyClass {
 This code will throw `ClassCastException` in runtime and we get warning in compile time
 
 [к оглавлению](#java-core)
+
 
 ## Что такое _«интернационализация»_, _«локализация»_?
 __Интернационализация (internationalization)__ - способ создания приложений, при котором их можно легко адаптировать для разных аудиторий, говорящих на разных языках.

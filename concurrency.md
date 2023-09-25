@@ -547,7 +547,7 @@ In this example writes to x from thread 1 and thread 2 are protected by locks, t
 happening in some order enforced by the order with which the locks are acquired at runtime.
 We just can't know which one happens before the other a priori.
 
-There is no fixed ordering between the writes, because locks can't provide it. If programm's 
+There is no fixed ordering between the writes, because locks can't provide it. If program's 
 correctness depends on concrete order of thread executions, we say there is race condition, but there is
 no data race
 
