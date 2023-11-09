@@ -2,6 +2,8 @@
 
 # Java Core
 + [Чем различаются JRE, JVM и JDK?](#Чем-различаются-jre-jvm-и-jdk)
++ [Is java interpreted or compiled language?](#is-java-interpreted-or-compiled-language)
++ [When does java interpret the bytecode and when does it compile it?](#when-does-java-interpret-the-bytecode-and-when-does-it-compile-it)
 + [Какие существуют модификаторы доступа?](#Какие-существуют-модификаторы-доступа)
 + [О чем говорит ключевое слово `final`?](#О-чем-говорит-ключевое-слово-final)
 + [Какими значениями инициализируются переменные по умолчанию?](#Какими-значениями-инициализируются-переменные-по-умолчанию)
@@ -123,6 +125,36 @@ __JDK__, Java Development Kit (Комплект разработки на Java) 
 
 Коротко: __JDK__ - среда для разработки программ на Java, включающая в себя __JRE__ - среду для обеспечения запуска Java программ, которая в свою очередь содержит __JVM__ - интерпретатор кода Java программ.
 
+[к оглавлению](#java-core)
+
+## Is java interpreted or compiled language?
+Java implementations typically use a two-step compilation process.
+Code written in Java is:
+First compiled to bytecode by a program called `javac`
+
+Then, another program called `java` starts the Java runtime environment and 
+it may **compile and/or interpret** the bytecode by using 
+the Java Interpreter/JIT Compiler. 
+
+But it's true only for HotSpot JVM, other JVM's may use other technics like 
+Ahead-of-time(AOT) compilation
+
+[к оглавлению](#java-core)
+
+## When does java interpret the bytecode and when does it compile it?
+
+The application code is initially interpreted, but the JVM monitors which sequences 
+of bytecode are frequently executed and translates them to machine code for direct 
+execution on the hardware. For bytecode which is executed only a few times, this 
+saves the compilation time and reduces the initial latency; 
+for frequently executed bytecode, JIT compilation is used to run at high speed,
+after an initial phase of slow interpretation. 
+Additionally, since a program spends most time executing a minority of its code,
+the reduced compilation time is significant. 
+Finally, during the initial code interpretation, execution statistics can be 
+collected before compilation, which helps to perform better optimization
+
+[Stackoverflow](https://stackoverflow.com/a/36394113)
 [к оглавлению](#java-core)
 
 ## Какие существуют модификаторы доступа?
@@ -1849,7 +1881,7 @@ String x = (String) list.get(0);
 ## Why java doesn't have reified generics?
 In early versions of java, there is no generics, they were introduced only in Java 5, and they were 
 implemented as type-erased generics, so information about type is only available in compile time, such 
-decision were made because it allow backward compatibility with pre Java 5 code, because there is no information
+decision were made because it allows backward compatibility with pre Java 5 code, because there is no information
 about generics in runtime.
 
 Java supports reification for most of the types, like primitives, non-parameterised types, array of primitives, etc
@@ -1873,7 +1905,7 @@ class MyClass {
   }
 }
 ```
-This code will throw `ClassCastException` in runtime and we get warning in compile time
+This code will throw `ClassCastException` in runtime, and we get warning in compile time
 
 [к оглавлению](#java-core)
 
