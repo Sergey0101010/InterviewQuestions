@@ -175,6 +175,45 @@ on top of the method, this annotation takes precedence over named queries, by de
 
 Or you can create predefined query in your entity class using `@NamedQuery()` annotation 
 
+## What ways of creating query using JPA and Hibernate do you know?
+
+- Query method like `findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname);`
+- Using `@Query("jpql or sql query")` annotation on top of method in repository interface
+- Use Criteria API
+- Use `@EntityGraph`
+
+## What is Criteria API?
+Criteria API offers a programmatic way to create typed queries,
+which helps us avoid syntax errors. With Criteria API you can 
+write SQL queries in OOP manner. 
+
+## What is `@EntityGraph`?
+Entity Graphs are another way to describe a query in JPA. 
+We can use them to formulate better-performing queries. By using Entity graphs 
+you can set up your query in a special way, so you would query only 
+necessary entities in your query. For example, you have _Person_ entity, which has 
+`@OneToMany` dependency to `Set<Song> favouriteSongs` and you want to 
+create a query where you need person's songs, but in other queries you don't 
+want to use songs, in this case you may use `@EntityGraph` to avoid eagerly
+queried songs in all of your queries.
+
+Example:
+```Java
+@Entity
+@NamedEntityGraph(name = "Item.characteristics",
+    attributeNodes = @NamedAttributeNode("characteristics")
+)
+public class Item {
+	//...
+}
+
+public interface ItemRepository extends JpaRepository<Item, Long> {
+
+    @EntityGraph(value = "Item.characteristics")
+    Item findByName(String name);
+}
+```
+
 ## What is the purpose of `EntityManager` in JPA?
 Entity manager in JPA is responsible for app interaction with persistance context which is responsible 
 for managing the lifecycle of entity objects and their persistance in database. EntiyManager provides 
