@@ -187,57 +187,88 @@ __Денормализация базы данных__ — это процесс
 
 [Table of contents](#databases)
 
-## Что такое _«индексы»_? Для чего их используют? В чём заключаются их преимущества и недостатки?
-__Индекс (index)__ — объект базы данных, создаваемый с целью повышения производительности выборки данных. 
+## What is an index in DB? What are their advantages and disadvantages?
+**Database index** is a data structure that improves the speed of data
+retrieval operations on a database table at the cost of additional writes
+and storage space to maintain the index data structure.
+Indexes are used to quickly locate data without having to search every row
+in a database table every time said table is accessed.
 
-Наборы данных могут иметь большое количество записей, которые хранятся в произвольном порядке, и их поиск по заданному критерию путём последовательного просмотра набора данных запись за записью может занимать много времени. Индекс формируется из значений одного или нескольких полей и указателей на соответствующие записи набора данных, - таким образом, достигается значительный прирост скорости выборки из этих данных.
+We need indexes because they allow us to highly optimize reading load in our database.
+searching on a field that isn’t sorted requires a Linear Search which requires **(N+1)/2** block accesses (on average),
+where N is the number of blocks that the table spans. If that field is a non-key field (i.e. doesn’t contain unique entries)
+then the entire tablespace must be searched at **N** block accesses.
+Whereas with a sorted field.
+Whereas with a sorted field, a Binary Search may be used, which has `log2 N` block accesses.
+Also since the data is sorted given a non-key field, the rest of the table doesn’t need to be searched for duplicate values,
+once a higher value is found
 
-Преимущества
+Advantages
 
-+ ускорение поиска и сортировки по определенному полю или набору полей.
-+ обеспечение уникальности данных.
++ speed up the search and sorting by a specific field or set of fields.
 
-Недостатки 
+Disadvantages 
 
-+ требование дополнительного места на диске и в оперативной памяти и чем больше/длиннее ключ, тем больше размер индекса.
-+ замедление операций вставки, обновления и удаления записей, поскольку при этом приходится обновлять сами индексы.
++ The index itself occupies space on disk and memory (when used). So, if space or memory are issues then too many indexes could be a problem.
++ When data is inserted/updated/deleted, then the index needs to be maintained as well as the original data. This slows down updates and locks the tables (or parts of the tables), which can affect query processing
 
-Индексы предпочтительней для:
+Indexes are preferable for:
 
-+ Поля-счетчика, чтобы в том числе избежать и повторения значений в этом поле;
-+ Поля, по которому проводится сортировка данных;
-+ Полей, по которым часто проводится соединение наборов данных. Поскольку в этом случае данные располагаются в порядке возрастания индекса и соединение происходит значительно быстрее;
-+ Поля, которое объявлено первичным ключом (primary key);
-+ Поля, в котором данные выбираются из некоторого диапазона. В этом случае как только будет найдена первая запись с нужным значением, все последующие значения будут расположены рядом.
- 
-Использование индексов нецелесообразно для:
++ The fields by which the data is sorted;
++ for any column that is being used as a foreign key into another table - add an index. It can either be a single column index - or it might be a compound index - whatever works best for your case. It's important that the foreign key column be the first column in that index (if you're using a compound index) - otherwise, the benefits for the JOIN's or for checking referential integrity won't be available to your system
++ For primary key (in some databases it is created by default, for example Oracle, SQL Server, and PostgreSQL);
++ Fields in which data is selected from a certain range. In this case, as soon as the first record with the desired value is found, all subsequent values will be located side by side.
 
-+ Полей, которые редко используются в запросах;
-+ Полей, которые содержат всего два или три значения, например: _мужской_,  _женский пол_ или значения _«да»_, _«нет»_.
+Using indexes is impractical for:
+
++ Fields that are rarely used in read queries;
++ Fields that contain only two or three values, for example: _"yes"_, _"no"_.
+
+[Stackoverflow](https://stackoverflow.com/a/11985423)
+
+[Stackoverflow](https://stackoverflow.com/a/1130)
 
 [Table of contents](#databases)
 
-## Какие типы индексов существуют?
+## What types of indexes exist?
 
-__По порядку сортировки__
-+ _упорядоченные_ — индексы, в которых элементы упорядочены;
-+ _возрастающие_;
-+ _убывающие_;
-+ _неупорядоченные_ — индексы, в которых элементы неупорядочены.
+__By sorting order__
++ _oredered_ — indexes in which the elements are ordered;
+  + _ascending_;
+  + _descending_;
++ _non-ordered_ — indexes in which the elements are unordered.
 
-__По источнику данных__
-+ _индексы по представлению (view)_;
-+ _индексы по выражениям_.
+__By the impact on the data source__
++ _Clustered index_ -  is an index that physically reorganizes the order in which the data entries are stored and gives the maximum speedup.
+  The logical structure of the dataset in this case is more of a dictionary than an index.
+  The data in the dictionary is physically ordered, for example alphabetically.
+  Cluster indexes can provide a significant increase in data retrieval performance, even compared to conventional indexes.
+  The performance increase is especially noticeable when working with sequential data. There can be only one clustered index
++ _non-clustered index_ — the most typical representatives of the indexes. 
+A non-clustered index doesn't change the physical structure of a dataset, but only organizes references to the corresponding entries
+  To identify the desired record in the dataset, the non-cluster index organizes special pointers, including: 
+information about the identification number of the file in which the record is stored; the identification number of the page of the corresponding data;
+the number of the desired record on the corresponding page; the contents of the column.
+  
+It is generally faster to read from a clustered index if you want to get back all the columns. You do not have to go first to the index and then to the table.
+Writing to a table with a clustered index can be slower, if there is a need to rearrange the data
 
-__По воздействию на источник данных__
-+ _кластерный индекс_ - при определении в наборе данных физическое расположение данных перестраивается в соответствии со структурой индекса. Логическая структура набора данных в этом случае представляет собой скорее словарь, чем индекс. Данные в словаре физически упорядочены, например по алфавиту. Кластерные индексы могут дать существенное увеличение производительности поиска данных даже по сравнению с обычными индексами. Увеличение производительности особенно заметно при работе с последовательными данными.
-+ _некластерный индекс_ — наиболее типичные представители семейства индексов. В отличие от кластерных, они не перестраивают физическую структуру набора данных, а лишь организуют ссылки на соответствующие записи. Для идентификации нужной записи в наборе данных некластерный индекс организует специальные указатели, включающие в себя: информацию об идентификационном номере файла, в котором хранится запись; идентификационный номер страницы соответствующих данных; номер искомой записи на соответствующей странице; содержимое столбца.
 
-__По структуре__
-+ _B*-деревья_;
-+ _B+-деревья_;
-+ _B-деревья_;
-+ _Хэши_.
+__By storing structure__
++ _B-Tree_ - a B-tree stores data such that each node contains keys in ascending order.
+Each of these keys has two references to another two child nodes. 
+The left side child node keys are less than the current keys, 
+and the right side child node keys are more than the current keys
++ _Hash_ - index based on a **hash function**. This function converts any database value to a numeric value called hash code
++ _GiST_ (Generalized Search Tree Indexes) - it's a family of indexes based on
+a concurrent and recoverable height-balanced search tree infrastructure without making any 
+assumptions about the type of data being stored, or the queries being serviced. Often severe as
+base for indexes based on B+ trees, R-trees, hB-trees, RD-trees and other
++ _SP-GiST_ - like GiST indexes, offer an infrastructure that supports 
+various kinds of searches. SP-GiST permits implementation of a wide range of different 
+non-balanced disk-based data structures, such as quadtrees, k-d trees, and radix trees (tries)
++ _GIN_
++ _BRIN_
 
 __По количественному составу__
 + _простой индекс (индекс с одним ключом)_ — строится по одному полю;
@@ -276,12 +307,61 @@ __Индексы в кластерных системах__
 + _сегментный индекс_ — глобальный индекс по полю-сегментируемому ключу (shard key). Используется для быстрого определения сегмента, на котором хранятся данные в процессе маршрутизации запроса в кластере БД.
 + _локальный индекс_ —  индекс по содержимому только одного сегмента БД.
 
+[Postgres docs](https://www.postgresql.org/docs/current/indexes-intro.html)
+[Hyperskill topic](https://www.postgresql.org/docs/current/indexes-intro.html)
+[Hyperskill topic composite indexes](https://hyperskill.org/learn/step/18011)
+[What do Clustered and Non-Clustered index actually mean?](https://stackoverflow.com/questions/1251636/what-do-clustered-and-non-clustered-index-actually-mean?noredirect=1&lq=1)
+
 [Table of contents](#databases)
 
 ## В чем отличие между кластерными и некластерными индексами?
 Некластерные индексы - данные физически расположены в произвольном порядке, но логически упорядочены согласно индексу. Такой тип индексов подходит для часто изменяемого набора данных.
 
 При кластерном индексировании данные физически упорядочены, что серьезно повышает скорость выборок данных (но только в случае последовательного доступа к данным). Для одного набора данных может быть создан только один кластерный индекс.
+
+[Table of contents](#databases)
+
+## What is the B-tree index and how it works?
+B-Tree is the most common type of index. This index is based on a
+balanced tree that maintains data sorted according to a specified condition
+The B-Tree index is a family of indexes based on balanced trees. 
+Depending on the particular database use, there can be a B+ Tree 
+(which is an advanced form of B-Tree) or a Binary Tree (which is the simplest form of B-Tree),
+or something else. This choice primarily affects the performance of the database, 
+but the way how we use the index always remains the same
+
+The top node is the root, and those below it are either child nodes or leaf nodes.
+We always start searching for our row from the root node. 
+We compare if the value we’re searching for is less than or greater 
+than the value in the node at hand. The result of the comparison tells 
+us which way to go, left or right, depending on the result of our comparison.
+
+Adding a new element takes more time. When we insert new element it has to be inserted somewhere in the tree,
+and the structure of this binary tree might change significantly to preserve the balance.
+In this case creation of a new record in the database will take more time compared to the 
+time required for this operation without indexes.
+B-Tree indexes are not limited to working with numbers only. 
+They can be used with dates, times, strings, and other ordered data types.
+However, there is an important limitation when working with strings and B-Tree indexes:
+the equality operator works only from the leftmost part of a string _(e.g. "c...", "ca..", "cat...")_
+in alphabetical order.  So, if you search for all strings that match the pattern like "..cat..", your index won't work
+
+[Table of contents](#databases)
+
+## What is hash index and how it works?
+The hash index is based on a hash function. 
+This function converts any database value to a numeric value called hash code. 
+Once you have a query that uses comparison by this value, 
+the database doesn't have to scan the entire dataset to find the match. 
+Instead, it will calculate the hash of the value used in the query condition 
+and directly access that place where data with the same hash is stored.
+In postgreSQL and some other popular DBs hash indexes store a 32-bit hash code derived from the value of the 
+indexed column.
+
+Hash indexes can potentially outperform B-Tree indexes when you need to find data 
+by a specific key. However, they are way less popular in practice because they can be 
+used only with equality operators and don't work with comparisons (<, >, <=, >=) and
+sortings. Moreover, not all databases support hash indexes
 
 [Table of contents](#databases)
 

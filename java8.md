@@ -6,7 +6,7 @@
 + [К каким переменным есть доступ у лямбда-выражений?](#К-каким-переменным-есть-доступ-у-лямбда-выражений)
 + [Как отсортировать список строк с помощью лямбда-выражения?](#Как-отсортировать-список-строк-с-помощью-лямбда-выражения)
 + [Что такое «ссылка на метод»?](#Что-такое-ссылка-на-метод)
-+ [Какие виды ссылок на методы вы знаете?](#Какие-виды-ссылок-на-методы-вы-знаете)
++ [What types of method references do you know?](#what-types-of-method-references-do-you-know)
 + [Объясните выражение `System.out::println`.](#Объясните-выражение-systemoutprintln)
 + [Что такое «функциональные интерфейсы»?](#Что-такое-функциональные-интерфейсы)
 + [Для чего нужны функциональные интерфейсы `Function<T,R>`, `DoubleFunction<R>`, `IntFunction<R>` и `LongFunction<R>`?](#Для-чего-нужны-функциональные-интерфейсы-functiontr-doublefunctionr-intfunctionr-и-longfunctionr)
@@ -22,12 +22,15 @@
 + [Для чего нужны функциональные интерфейсы `ToDoubleBiFunction<T,U>`, `ToIntBiFunction<T,U>` и `ToLongBiFunction<T,U>`?](#Для-чего-нужны-функциональные-интерфейсы-todoublebifunctiontu-tointbifunctiontu-и-tolongbifunctiontu)
 + [Для чего нужны функциональные интерфейсы `ToDoubleFunction<T>`, `ToIntFunction<T>` и `ToLongFunction<T>`?](#Для-чего-нужны-функциональные-интерфейсы-todoublefunctiont-tointfunctiont-и-tolongfunctiont)
 + [Для чего нужны функциональные интерфейсы `ObjDoubleConsumer<T>`, `ObjIntConsumer<T>` и `ObjLongConsumer<T>`?](#Для-чего-нужны-функциональные-интерфейсы-objdoubleconsumert-objintconsumert-и-objlongconsumert)
++ [What is function composition java?]()
++ []
 + [Что такое `StringJoiner`?](#Что-такое-stringjoiner)
 + [Что такое `default` методы интрефейса?](#Что-такое-default-методы-интрефейса)
 + [Как вызывать `default` метод интерфейса в реализующем этот интерфейс классе?](#Как-вызывать-default-метод-интерфейса-в-реализующем-этот-интерфейс-классе)
 + [Что такое `static` метод интерфейса?](#Что-такое-static-метод-интерфейса)
 + [Как вызывать `static` метод интерфейса?](#Как-вызывать-static-метод-интерфейса)
 + [Что такое `Optional`?](#Что-такое-optional)
++ [Why there are two methods of creating `Optional<T>` `Optional.of()` and `Optional.ofNullable()`?](#why-there-are-two-methods-of-creating-optionalt-optionalof-and-optionalofnullable)
 + [Что такое `Stream`?](#Что-такое-stream)
 + [Какие существуют способы создания стрима?](#Какие-существуют-способы-создания-стрима)
 + [В чем разница между `Collection` и `Stream`?](#В-чем-разница-между-collection-и-stream)
@@ -227,10 +230,12 @@ public static void main(String[] args) {
 
 [к оглавлению](#java-8)
 
-## Какие виды ссылок на методы вы знаете?
-+ на статический метод;
-+ на метод экземпляра;
-+ на конструкторе.
+## What types of method references do you know?
++ Reference to static method. `IntBinaryOperator sum = Integer::sum;`
++ Reference to non-static method(unbound receiver). `Function<String, String> trimmer = String::trim;`
++ Reference to non-static method of already existing object instance(bounded receiver). `Predicate<String> isFoo = "foo"::equals;`
++ Reference to constructor. `Supplier<List<String>> listFactory = ArrayList::new;`
+
 
 [к оглавлению](#java-8)
 
@@ -241,6 +246,8 @@ public static void main(String[] args) {
 
 ## Что такое «функциональные интерфейсы»?
 __Функциональный интерфейс__ - это интерфейс, который определяет только один абстрактный метод. 
+Исключениями являются только абстрактные методы, которые определены в классе `Object`, их можно определять внутри интерфейса и при этом он
+продолжит являться функциональным. При этом, при реализации функционального интерфейса 
 
 Чтобы точно определить интерфейс как функциональный, добавлена аннотация `@FunctionalInterface`, работающая по принципу `@Override`. Она обозначит замысел и не даст определить второй абстрактный метод в интерфейсе.
 
@@ -466,8 +473,10 @@ class Licence {
 [к оглавлению](#java-8)
 
 ## Что такое `Optional`?
-Опциональное значение `Optional` — это контейнер для объекта, который может содержать или не содержать значение `null`. Такая обёртка является удобным средством предотвращения `NullPointerException`, т.к.
-имеет некоторые функции высшего порядка, избавляющие от добавления повторяющихся `if null/notNull` проверок:
+Опциональное значение `Optional` — это контейнер для объекта, который может содержать или не содержать значение `null`. 
+Такая обёртка является удобным средством предотвращения `NullPointerException`, т.к.
+имеет некоторые функции высшего порядка, избавляющие от добавления повторяющихся `if null/notNull` 
+проверок:
 
 ```java
 Optional<String> optional = Optional.of("hello");
@@ -477,6 +486,34 @@ optional.ifPresent(s -> System.out.println(s.length())); // 5
 optional.get(); // "hello"
 optional.orElse("ops..."); // "hello"
 ```
+
+[к оглавлению](#java-8)
+
+## Why there are two methods of creating `Optional<T>` `Optional.of()` and `Optional.ofNullable()`?
+`Optional.of()` is a method for creating `Optional<T>` instance with non-null value inside. 
+This method throws `NullPointerException` if you pass `null` value inside it.
+
+`Optional.ofNullable()` is a method for creation `Optional<T>` instance with null or non-null value
+inside. If you provide `null` to this method empty `Optional<T>` will be created.
+
+You should `Optional.of()` whenever you expect that value which you pass to this method never can be
+`null`. As you will see a `NullPointerException` which will indicate that your program has a bug. 
+If you use `Optional.ofNullable(foobar)` and the foobar happens to be `null` due to the bug, then your
+program will silently continue working incorrectly, which may be a bigger disaster. 
+This way an error may occur much later and it would be much harder to understand at which point
+it went wrong.
+
+Good example of usage `Optional.of()` is when you try to parse an integer from string.
+```java
+static Optional<Integer> toInteger(String val) {
+  try {
+    return Optional.of(Integer.valueOf(val));
+  } catch (NumberFormatException e) {
+    return Optional.empty();
+  }
+}
+```
+In this case we know that `Integer.valueOf()` can't return `null`, so we use `Optional.of()`.
 
 [к оглавлению](#java-8)
 

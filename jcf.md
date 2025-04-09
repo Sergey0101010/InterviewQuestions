@@ -2,7 +2,7 @@
 
 # Java Collections Framework
 + [Что такое _«коллекция»_?](#Что-такое-коллекция)
-+ [Назовите основные интерфейсы JCF и их реализации.](#Назовите-основные-интерфейсы-jcf-и-их-реализации)
++ [Назовите основные интерфейсы JCF и их реализации.](#please-describe-main-interfaces-in-jcf-and-their-realizations)
 + [Расположите в виде иерархии следующие интерфейсы: `List`, `Set`, `Map`, `SortedSet`, `SortedMap`, `Collection`, `Iterable`, `Iterator`, `NavigableSet`, `NavigableMap`.](#Расположите-в-виде-иерархии-следующие-интерфейсы-list-set-map-sortedset-sortedmap-collection-iterable-iterator-navigableset-navigablemap)
 + [Почему `Map` — это не `Collection`, в то время как `List` и `Set` являются `Collection`?](#Почему-map--это-не-collection-в-то-время-как-list-и-set-являются-collection)
 + [В чем разница между классами `java.util.Collection` и `java.util.Collections`?](#В-чем-разница-между-классами-javautilcollection-и-javautilcollections)
@@ -77,6 +77,11 @@
 + [Для `Enum` есть специальный класс `java.util.EnumSet`. Зачем? Чем авторов не устраивал `HashSet` или `TreeSet`?](#Для-enum-есть-специальный-класс-javautilenumset-Зачем-Чем-авторов-не-устраивал-hashset-или-treeset)
 + [Какие существуют способы перебирать элементы списка?](#Какие-существуют-способы-перебирать-элементы-списка)
 + [Каким образом можно получить синхронизированные объекты стандартных коллекций?](#Каким-образом-можно-получить-синхронизированные-объекты-стандартных-коллекций)
++ [How `CopyOnWriteArrayList` and `CopyOnWriteArraySet` work?]()
++ [How `ConcurrentHashMap` works?]()
++ [What are key features of `ConcurrentHashMap` comparing to synchronized map?]()
++ [Please tell about java `BlockingQueue<E>` interface and its main implementations]()
++ [Please tell about java `ConcurrentNavigableMap<K,V>` interface and its main implementations]()
 + [Как получить коллекцию только для чтения?](#Как-получить-коллекцию-только-для-чтения)
 + [Напишите однопоточную программу, которая заставляет коллекцию выбросить `ConcurrentModificationException`.](#Напишите-однопоточную-программу-которая-заставляет-коллекцию-выбросить-concurrentmodificationexception)
 + [Приведите пример, когда какая-либо коллекция выбрасывает `UnsupportedOperationException`.](#Приведите-пример-когда-какая-либо-коллекция-выбрасывает-unsupportedoperationexception)
@@ -94,7 +99,7 @@ _«Коллекция»_ - это структура данных, набор к
 
 [to the top](#java-collections-framework)
 
-## Plese describe main interfaces in JCF and their realizations
+## Please describe main interfaces in JCF and their realizations
 На вершине иерархии в Java Collection Framework располагаются 2 интерфейса:
 `Collection` и `Map`. Эти интерфейсы разделяют все коллекции,
 входящие во фреймворк на две части по типу хранения данных: 
@@ -1058,6 +1063,8 @@ for (String element : list) {
 Начиная с Java 6 JCF был расширен специальными коллекциями, поддерживающими многопоточный доступ, такими как `CopyOnWriteArrayList` и `ConcurrentHashMap`.
 
 [to the top](#java-collections-framework)
+
+
 
 ## Как получить коллекцию только для чтения?
 При помощи:

@@ -1,11 +1,12 @@
-[Вопросы для собеседования](README.md)
+[Java interview questions](README.md)
 
 # Java Core
 + [What are the differences between JRE, JVM and JDK?](#what-are-the-differences-between-jre-jvm-and-jdk)
 + [Is java interpreted or compiled language?](#is-java-interpreted-or-compiled-language)
 + [When does java interpret the bytecode and when does it compile it?](#when-does-java-interpret-the-bytecode-and-when-does-it-compile-it)
 + [What types of access modifiers are existing in java?](#what-types-of-access-modifiers-are-existing-in-java)
-+ [О чем говорит ключевое слово `final`?](#О-чем-говорит-ключевое-слово-final)
++ [What is `final` keyword and where it might be used?](#what-is-final-keyword-and-where-it-might-be-used)
++ [What is effectively final mean?](#what-is-effectively-final-mean)
 + [Какими значениями инициализируются переменные по умолчанию?](#Какими-значениями-инициализируются-переменные-по-умолчанию)
 + [Что вы знаете о функции `main()`?](#Что-вы-знаете-о-функции-main)
 + [Какие логические операции и операторы вы знаете?](#Какие-логические-операции-и-операторы-вы-знаете)
@@ -50,6 +51,7 @@
 + [Опишите алгоритм работы какого-нибудь сборщика мусора, реализованного в виртуальной машине HotSpot.](#Опишите-алгоритм-работы-какого-нибудь-сборщика-мусора-реализованного-в-виртуальной-машине-hotspot)
 + [Что такое «пул строк»?](#Что-такое-пул-строк)
 + [Что такое `finalize()`? Зачем он нужен?](#Что-такое-finalize-Зачем-он-нужен)
++ [How to create memory leak in java?](#how-to-create-memory-leak-in-java) 
 + [Что произойдет со сборщиком мусора, если выполнение метода `finalize()` требует ощутимо много времени, или в процессе выполнения будет выброшено исключение?](#Что-произойдет-со-сборщиком-мусора-если-выполнение-метода-finalize-требует-ощутимо-много-времени-или-в-процессе-выполнения-будет-выброшено-исключение)
 + [Чем отличаются `final`, `finally` и `finalize()`?](#Чем-отличаются-final-finally-и-finalize)
 + [Расскажите про приведение типов. Что такое понижение и повышение типа?](#Расскажите-про-приведение-типов-Что-такое-понижение-и-повышение-типа)
@@ -82,7 +84,7 @@
 + [Для чего нужен метод `hashCode()`?](#Для-чего-нужен-метод-hashcode)
 + [Каковы правила переопределения метода `Object.hashCode()`?](#Каковы-правила-переопределения-метода-objecthashcode)
 + [Есть ли какие-либо рекомендации о том, какие поля следует использовать при подсчете `hashCode()`?](#Есть-ли-какие-либо-рекомендации-о-том-какие-поля-следует-использовать-при-подсчете-hashcode)
-+ [Могут ли у разных объектов быть одинаковые `hashCode()`?](#Могут-ли-у-разных-объектов-быть-одинаковые-hashcode)
++ [Can different objects have the same `hashCode()` ?](#can-different-objects-have-the-same-hashcode-)
 + [Если у класса `Point{int x, y;}` реализовать метод `equals(Object that) {(return this.x == that.x && this.y == that.y)}`, но сделать хэш код в виде `int hashCode() {return x;}`, то будут ли корректно такие точки помещаться и извлекаться из `HashSet`?](#Если-у-класса-pointint-x-y-реализовать-метод-equalsobject-that-return-thisx--thatx--thisy--thaty-но-сделать-хэш-код-в-виде-int-hashcode-return-x-то-будут-ли-корректно-такие-точки-помещаться-и-извлекаться-из-hashset)
 + [Могут ли у разных объектов `(ref0 != ref1)` быть `ref0.equals(ref1) == true`?](#Могут-ли-у-разных-объектов-ref0--ref1-быть-ref0equalsref1--true)
 + [Могут ли у разных ссылок на один объект `(ref0 == ref1)` быть `ref0.equals(ref1) == false`?](#Могут-ли-у-разных-ссылок-на-один-объект-ref0--ref1-быть-ref0equalsref1--false)
@@ -111,9 +113,19 @@
 + [Может ли один блок `catch` отлавливать сразу несколько исключений?](#Может-ли-один-блок-catch-отлавливать-сразу-несколько-исключений)
 + [Всегда ли исполняется блок `finally`?](#Всегда-ли-исполняется-блок-finally)
 + [Существуют ли ситуации, когда блок `finally` не будет выполнен?](#Существуют-ли-ситуации-когда-блок-finally-не-будет-выполнен)
++ [How to crash a JVM?](#how-to-crash-a-jvm)
 + [Может ли метод _main()_ выбросить исключение во вне и если да, то где будет происходить обработка данного исключения?](#Может-ли-метод-main-выбросить-исключение-во-вне-и-если-да-то-где-будет-происходить-обработка-данного-исключения)
 + [Предположим, есть метод, который может выбросить `IOException` и `FileNotFoundException` в какой последовательности должны идти блоки `catch`? Сколько блоков `catch` будет выполнено?](#Предположим-есть-метод-который-может-выбросить-ioexception-и-filenotfoundexception-в-какой-последовательности-должны-идти-блоки-catch-Сколько-блоков-catch-будет-выполнено)
-+ [Что такое _generics_?](#Что-такое-generics)
++ [Что такое _generics_?](#что-такое-_generics_)
++ [What is type erasure in java?](#what-is-type-erasure-in-java)
++ [Why we can't use primitive type in generic code?](#why-we-cant-use-primitive-type-in-generic-code)
++ [What are pros and cons of java generics?](#what-are-pros-and-cons-of-java-generics)
++ [How code in example with generics will look after compilation?](#how-code-in-example-with-generics-will-look-after-compilation)
++ [Why java doesn't have reified generics?](#why-java-doesnt-have-reified-generics)
++ [What is wildcard in generic code?](#what-is-wildcard-in-generic-code)
++ [Why we need wildcards?](#why-we-need-wildcards)
++ [How to bound generic type parameter or wildcard with upper or lower bound?](#how-to-bound-generic-type-parameter-or-wildcard-with-upper-or-lower-bound)
++ [Is it possible to provide multiple bounds to single type parameter/wildcard?](#is-it-possible-to-provide-multiple-bounds-to-single-type-parameterwildcard)
 + [Что такое _«интернационализация»_, _«локализация»_?](#Что-такое-интернационализация-локализация)
 
 ## What are the differences between JRE, JVM and JDK?
@@ -180,14 +192,23 @@ It is possible to make the access less restrictive, for example from `protected`
 
 [to the top](#java-core)
 
-## О чем говорит ключевое слово `final`?
-Модификатор `final` может применяться к переменным, параметрам методов, полям и методам класса или самим классам.
+## What is `final` keyword and where it might be used?
+The `final` modifier can be applied to variables, method parameters,
+fields and methods of a class, or classes themselves.
 
-+ Класс не может иметь наследников;
-+ Метод не может быть переопределен в классах наследниках;
-+ Поле не может изменить свое значение после инициализации;
-+ Параметры методов не могут изменять своё значение внутри метода;
-+ Локальные переменные не могут быть изменены после присвоения им значения.
++ A class cannot have subclasses;
++ The method cannot be overridden in the subclasses;
++ The field cannot change its value after initialization;
++ Method parameters cannot change their value inside the method;
++ Local variables cannot be changed after assigning a value to them.
+
+[to the top](#java-core)
+
+## What is effectively final mean?
+
+Objects or primitive values are **effectively final** if we do not change their values after initialization. 
+In the case of objects, if we do not change the reference of an object, 
+then it is effectively final - even if a change occurs in the state of the referenced object
 
 [to the top](#java-core)
 
@@ -642,7 +663,7 @@ public class Dog extends Animal {
 
 [to the top](#java-core)
 
-## Как получить доступ к переопределенным методам родительского класса?
+## How to call method of superclass?
 С помощью ключевого слова `super` мы можем обратиться к любому члену родительского класса - методу или полю, если они не определены с модификатором `private`.
 
 ```java
@@ -1087,6 +1108,40 @@ public class MainClass {
 
 
 [to the top](#java-core)
+
+## How to create memory leak in java?
+The application creates a long-running thread (or use a thread pool to leak even faster).
+The thread loads a class via an (optionally custom) ClassLoader.
+The class allocates a large chunk of memory (e.g. `new byte[1000000]`), 
+stores a strong reference to it in a static field, and then stores a reference to itself in a `ThreadLocal`.
+Allocating the extra memory is optional (leaking the class instance is enough), but it will make the 
+leak work that much faster.
+The application clears all references to the custom class or the `ClassLoader` it was loaded from.
+Repeat.
+Due to the way `ThreadLocal` is implemented in Oracle's JDK, this creates a memory leak:
+
+Each Thread has a private field threadLocals, which actually stores the thread-local values.
+Each key in this map is a weak reference to a ThreadLocal object, so after that ThreadLocal object 
+is garbage-collected, its entry is removed from the map.
+But each value is a strong reference, so when a value (directly or indirectly) points to the 
+`ThreadLocal` object that is its key, that object will neither be garbage-collected nor removed 
+from the map as long as the thread lives.
+In this example, the chain of strong references looks like this:
+
+Thread object → threadLocals map → instance of example class → example class → static ThreadLocal field
+→ ThreadLocal object.
+
+(The ClassLoader doesn't really play a role in creating the leak, it just makes the leak worse 
+because of this additional reference chain: example class → ClassLoader → all the classes it has loaded.
+It was even worse in many JVM implementations, especially prior to Java 7, because classes and 
+ClassLoaders were allocated straight into permgen and were never garbage-collected at all.)
+
+A variation on this pattern is why application containers (like Tomcat) can leak memory like a 
+sieve if you frequently redeploy applications which happen to use ThreadLocals that in some way point 
+back to themselves. This can happen for a number of subtle reasons and is often hard to debug and/or fix.
+
+[to the top](#java-core)
+
 
 ## Что произойдет со сборщиком мусора, если выполнение метода `finalize()` требует ощутимо много времени, или в процессе выполнения будет выброшено исключение?
 Непосредственно вызов `finalize()` происходит в отдельном потоке _Finalizer_ (`java.lang.ref.Finalizer.FinalizerThread`), который создаётся при запуске виртуальной машины (в статической секции при загрузке класса `Finalizer`). Методы `finalize()` вызываются последовательно в том порядке, в котором были добавлены в список сборщиком мусора. Соответственно, если какой-то `finalize()` зависнет, он подвесит поток _Finalizer_, но не сборщик мусора. Это в частности означает, что объекты, не имеющие метода `finalize()`, будут исправно удаляться, а вот имеющие будут добавляться в очередь, пока поток _Finalizer_ не освободится, не завершится приложение или не кончится память. 
@@ -1533,8 +1588,10 @@ we comparing only references(because we use `==` sing) we will get `true` as the
 
 [to the top](#java-core)
 
-## Могут ли у разных объектов быть одинаковые `hashCode()`?
-Да, могут. Метод `hashCode()` не гарантирует уникальность возвращаемого значения. Ситуация, когда у разных объектов одинаковые хэш коды называется _коллизией_. Вероятность возникновения коллизии зависит от используемого алгоритма генерации хэш кода.
+## Can different objects have the same `hashCode()` ?
+Yes, they can. The `hashCode()` method does not guarantee the uniqueness of the returned value.
+A situation where different objects have the same hash codes is called a _collision_.
+The probability of a collision depends on the hash code generation algorithm used.
 
 [to the top](#java-core)
 
@@ -1749,7 +1806,7 @@ class CustomException extends Exception {
 
 [to the top](#java-core)
 
-## Что представляет из себя ошибки класса `Error`?
+## Что представляют собой ошибки класса `Error`?
 Ошибки класса `Error` представляют собой наиболее серьёзные проблемы уровня JVM. Например, исключения такого рода возникают, если закончилась память доступная виртуальной машине. Обрабатывать такие ошибки не запрещается, но делать этого не рекомендуется.
 
 [to the top](#java-core)
@@ -1844,6 +1901,29 @@ try {
 
 [to the top](#java-core)
 
+## How to crash a JVM?
+Use JNI and crash in the native code.
+If no security manager is installed you can use reflection to crash the VM.
+This is VM specific, but normally a VM stores a bunch of pointers to native resources in private fields
+(e.g. a pointer to the native thread object is stored in a long field in java.lang.Thread). 
+Just change them via reflection and the VM will crash sooner or later.
+All VMs have bugs, so you just have to trigger one.
+
+Example with usage of `Unsafe` 
+
+```java
+public class JvmCrash {
+  public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+    Field f = Unsafe.class.getDeclaredField("theUnsafe");
+    f.setAccessible(true);
+    Unsafe unsafe = (Unsafe) f.get(null);
+    unsafe.putAddress(0, 0);
+  }
+}
+```
+
+[to the top](#java-core)
+
 ## Может ли метод _main()_ выбросить исключение во вне и если да, то где будет происходить обработка данного исключения?
 Может и оно будет передано в виртуальную машину Java (JVM).
 
@@ -1912,21 +1992,28 @@ its first bound if the type parameter is bounded or `Object` if type parameter i
 
 When generics are _used_ they're converted into compile-time checks and execution-time casts.
 
+[to the top](#java-core)
+
 ## Why we can't use primitive type in generic code?
 Because java use type-erased generics, so in runtime we don't have information about generic type, 
 so any `T t` field is becoming `Object` type in runtime, but as primitives are not derived from `Object`, 
 technically, they are not objects at all, they can't be erased to `Object` and can't be used in generics.
 
-## What are pros and cons of java generics
+[to the top](#java-core)
+
+## What are pros and cons of java generics?
 Cons:
 - Can't be used with primitives, like `List<byte>`
 - Syntax for constraints can get confusing
 - At execution time you can't tell type of object
 
 Pros:
-- Wildcarding allows covariance/contravariance to be specified at calling side, which is very neat in many situations
+- Wildcarding allows covariance/contravariance to be specified at calling side, 
+which is very neat in many situations
 
 [stackoverflow](https://stackoverflow.com/a/520568)
+
+[to the top](#java-core)
 
 ## How code in example with generics will look after compilation?
 ```java
@@ -1941,6 +2028,8 @@ List list = new ArrayList();
 list.add("Hi");
 String x = (String) list.get(0);
 ```
+
+[to the top](#java-core)
 
 ## Why java doesn't have reified generics?
 In early versions of java, there is no generics, they were introduced only in Java 5, and they were 
@@ -1973,6 +2062,49 @@ This code will throw `ClassCastException` in runtime, and we get warning in comp
 
 [to the top](#java-core)
 
+## What is wildcard in generic code?
+
+In generic code, the question mark (?), called the wildcard, represents an unknown type. 
+The wildcard can be used in a variety of situations: as the type of a parameter, field, or local variable;
+sometimes as a return type (though it is better programming practice to be more specific). 
+The wildcard is never used as a type argument for a generic method invocation, 
+a generic class instance creation, or a supertype
+
+[to the top](#java-core)
+
+## Why we need wildcards?
+
+A wildcard describes a family of types.  There are 3 different flavors of wildcards:
+`<?>` - the unbounded wildcard. It stands for the family of all types.
+`<? extends Type>` - a wildcard with an upper bound. It stands for the family of all types that 
+are subtypes of Type , type `Type` being included.
+`<? super Type>` - a wildcard with a lower bound. It stands for the family of all types that are 
+supertypes of Type , type `Type` being included.
+Wildcards are used to declare so-called wildcard parameterized types, where a wildcard 
+is used as an argument for instantiation of generic types. 
+Wildcards are useful in situations where no or only partial knowledge about the type argument of a 
+parameterized type is required
+
+[to the top](#java-core)
+
+## How to bound generic type parameter or wildcard with upper or lower bound?
+
+Type parameter bound: `<TypeParameter extends Class & Interface1 & ... & InterfaceN>`
+Wildcard bound: `<? extends SuperType>` (upper bound), `? super SubType` (lower bound)
+
+[to the top](#java-core)
+
+## Is it possible to provide multiple bounds to single type parameter/wildcard?
+A wildcard can have only one bound, while a type parameter can have several bounds.
+A wildcard can have a lower or an upper bound, while there is no such thing as a 
+lower bound for a type parameter.
+
+Type parameter bound: `<TypeParameter extends Class & Interface1 & ... & InterfaceN>`
+Wildcard bound: `<? extends SuperType>` (upper bound), `? super SubType` (lower bound)
+
+[Java generics](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeArguments.html#What%20is%20a%20wildcard?)  
+
+[to the top](#java-core)
 
 ## Что такое _«интернационализация»_, _«локализация»_?
 __Интернационализация (internationalization)__ - способ создания приложений, при котором их можно легко адаптировать для разных аудиторий, говорящих на разных языках.
