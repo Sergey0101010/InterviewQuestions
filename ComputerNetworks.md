@@ -187,6 +187,7 @@ __Протокол передачи данных__ — набор соглаше
 + POP3 (Post Office Protocol)
 + SMTP (Simple Mail Transfer Protocol)
 + TELNET (TErminaL NETwork)
++ gRPC (Remote Procedure Call)
 
 [table of contents](#computer-networks)
 

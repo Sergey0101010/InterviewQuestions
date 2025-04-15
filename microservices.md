@@ -48,7 +48,7 @@ more deployment jobs, scripts etc
 - **Modifiability** if one endpoint has a lot of consumers it is harder to change API
 
 ### What types of communication between services do you know?
-Synchronous(http, gRPC, TCP) and async(kafka, RabbitMQ, other)
+Synchronous(http, gRPC) and async(kafka, RabbitMQ, other)
 
 ### What microservice design patterns do you know?
 
@@ -84,7 +84,7 @@ it from service discovery agent
 
 It is usually implemented in Spring using spring netflix - eureka
 ### What is load balancing?
-### How authentication through JWT works?
+
 ### How logging in microservices works?
 
 
